@@ -1,4 +1,4 @@
-package com.tricky_tweaks.go.fragment;
+package com.tricky_tweaks.go.LoginBundle.fragment;
 
 
 import android.os.Bundle;

@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:verticalScrollbarPosition="defaultPosition"
-    tools:context=".activity.WelcomeActivity">
+    tools:context=".LoginBundle.activity.WelcomeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

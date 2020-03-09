@@ -1,4 +1,4 @@
-package com.tricky_tweaks.go.activity;
+package com.tricky_tweaks.go.LoginBundle.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +20,7 @@ public class WelcomeActivity extends AppCompatActivity {
         s.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, EntryActivity.class));
             }
         });
     }
