@@ -45,13 +45,19 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_round_corner_rect"
                 android:hint="email / username"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:padding="16dp" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_round_corner_rect"
                 android:hint="password"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:padding="16dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -59,14 +65,9 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:text="login"
+                android:layout_marginTop="8dp"
                 android:padding="12dp"
                 android:textAllCaps="false" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/dimColor"
-                android:layout_margin="12dp"/>
 
         </LinearLayout>
 
@@ -74,9 +75,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="signin using google account"
+            android:layout_marginTop="8dp"
+            android:text="create account using google account"
             android:layout_gravity="center"
-            android:textColor="@color/mainFontColor"/>
+            android:textColor="@color/mainFontColor" />
 
         <ImageButton
             android:layout_width="50dp"
@@ -86,6 +88,18 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"/>
+            android:clickable="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_margin="8dp"
+            android:text="  don't have account \n Signin   "
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:textAlignment="center"
+            android:textColor="@color/mainFontColor" />
     </LinearLayout>
 </ScrollView>
