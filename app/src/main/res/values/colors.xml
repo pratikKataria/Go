@@ -5,4 +5,5 @@
     <color name="colorAccent">#333333</color>
 
     <color name="mainFontColor">#000000</color>
+    <color name="dimColor">#cccccc</color>
 </resources>
