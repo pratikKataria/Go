@@ -61,6 +61,7 @@
                 android:padding="16dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
@@ -81,6 +82,7 @@
             android:textColor="@color/mainFontColor" />
 
         <ImageButton
+            android:id="@+id/test_image_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/ic_google_btn"
