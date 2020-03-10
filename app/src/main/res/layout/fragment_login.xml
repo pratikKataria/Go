@@ -19,21 +19,19 @@
             android:fontFamily="@font/sen_b"
             android:text="Login"
             android:textColor="@color/mainFontColor"
-            android:textSize="32sp" />
+            android:textSize="@dimen/large_text_size" />
         <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="@dimen/large_image_size"
+            android:layout_height="@dimen/large_image_size"
             android:layout_gravity="center"
             android:src="@drawable/crayon_login" />
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Welcome back to login"
-            android:layout_gravity="center"
-            android:textColor="@color/mainFontColor"/>
+            style="@style/Widget.Go.TextView.Center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,45 +44,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/ic_round_corner_rect"
                 android:hint="email / username"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:padding="16dp" />
+                style="@style/Widget.Go.EditText"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/ic_round_corner_rect"
                 android:hint="password"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:padding="16dp" />
+                style="@style/Widget.Go.EditText"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:text="login"
                 android:layout_marginTop="8dp"
-                android:padding="12dp"
-                android:textAllCaps="false" />
+                style="@style/Widget.Go.Button"/>
 
         </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="create account using google account"
-            android:layout_gravity="center"
-            android:textColor="@color/mainFontColor" />
+            style="@style/Widget.Go.TextView.Center" />
 
         <ImageButton
             android:id="@+id/test_image_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/image_button"
+            android:layout_height="@dimen/image_button"
             android:src="@drawable/ic_google_btn"
             android:layout_marginTop="8dp"
             android:layout_gravity="center"
@@ -95,13 +85,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="16dp"
             android:layout_margin="8dp"
             android:text="  don't have account \n Signin   "
             android:clickable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:textAlignment="center"
-            android:textColor="@color/mainFontColor" />
+            style="@style/Widget.Go.TextView.Center" />
     </LinearLayout>
 </ScrollView>

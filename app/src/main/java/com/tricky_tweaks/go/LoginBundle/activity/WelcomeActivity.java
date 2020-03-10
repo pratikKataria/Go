@@ -17,11 +17,6 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         ImageButton s = findViewById(R.id.image_btn);
-        s.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, EntryActivity.class));
-            }
-        });
+        s.setOnClickListener(v -> startActivity(new Intent(WelcomeActivity.this, EntryActivity.class)));
     }
 }
