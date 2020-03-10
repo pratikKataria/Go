@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.provider.MediaStore;
 import android.service.autofill.VisibilitySetterAction;
+import android.text.style.CharacterStyle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,6 +109,8 @@ public class DetailFormFragment extends Fragment {
             genderSelected.setText("Gender selected: " + radioButton.getText().toString());
         });
 
+        TextView selectedBranch = view.findViewById(R.id.fragment_detail_form_tv_branch_selected);
+        selectedBranch.setText("Branch selected: EC");
         Spinner spinner = view.findViewById(R.id.fragment_detail_form_sp_branch);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getActivity(),
@@ -119,6 +122,7 @@ public class DetailFormFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedBranch.setText("Branch selected: " + parent.getItemAtPosition(position).toString());
                 Toast.makeText(getContext(), "selected"+ parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
             }
 
@@ -127,6 +131,30 @@ public class DetailFormFragment extends Fragment {
 
             }
         });
+
+        TextView semesterBranch = view.findViewById(R.id.fragment_detail_form_tv_semester_selected);
+        semesterBranch.setText("Semester selected: I");
+        Spinner semesterSpinner = view.findViewById(R.id.fragment_detail_form_sp_semester);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(
+                getActivity(),
+                R.array.semester,
+                android.R.layout.simple_spinner_item);
+        arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        semesterSpinner.setAdapter(arrayAdapter);
+        semesterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                semesterBranch.setText("Semester selected: " + parent.getItemAtPosition(position).toString());
+                Toast.makeText(getContext(), "selected"+ parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         return view;
     }
 

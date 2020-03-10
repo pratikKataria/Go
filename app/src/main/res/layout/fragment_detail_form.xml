@@ -63,14 +63,29 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/fragment_detail_form_tv_branch_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Semester"/>
+            android:text="Branch selected: "
+            android:textColor="@color/ceriseRed"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semester"
+            android:layout_marginTop="8dp"/>
 
         <Spinner
             android:id="@+id/fragment_detail_form_sp_semester"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/fragment_detail_form_tv_semester_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semester selected: "
+            android:textColor="@color/ceriseRed"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -137,17 +152,20 @@
             android:id="@+id/fragment_detail_form_et_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="address"/>
+            android:hint="address"
+            style="@style/Widget.Go.EditText"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date of Birth"/>
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_detail_form_mb_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="show date picker"/>
 
         <TextView
             android:layout_width="wrap_content"

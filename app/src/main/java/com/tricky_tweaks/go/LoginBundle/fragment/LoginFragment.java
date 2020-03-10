@@ -64,6 +64,7 @@ public class LoginFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         auth = FirebaseAuth.getInstance();
+        ((NavigationHost)getActivity()).navigateTo(new DetailFormFragment(), false);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(
                 GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
