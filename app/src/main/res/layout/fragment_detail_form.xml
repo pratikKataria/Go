@@ -52,7 +52,23 @@
             style="@style/Widget.Go.EditText"
             android:hint="username"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Branch"/>
+
         <Spinner
+            android:id="@+id/fragment_detail_form_sp_branch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semester"/>
+
+        <Spinner
+            android:id="@+id/fragment_detail_form_sp_semester"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -138,10 +154,6 @@
             android:layout_height="wrap_content"
             android:text="select branch"/>
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/fragment_detail_form_pb_end"
