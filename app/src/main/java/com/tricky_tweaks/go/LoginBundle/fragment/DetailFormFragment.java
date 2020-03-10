@@ -14,10 +14,10 @@ import com.tricky_tweaks.go.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailForm extends Fragment {
+public class DetailFormFragment extends Fragment {
 
 
-    public DetailForm() {
+    public DetailFormFragment() {
         // Required empty public constructor
     }
 
