@@ -31,6 +31,12 @@
             android:layout_marginTop="12dp"
             android:src="@drawable/crayon_image" />
 
+        <ProgressBar
+            android:id="@+id/fragment_detail_form_pb_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Go.Progress"/>
+
         <TextView
             android:id="@+id/fragment_detail_form_tv_uid"
             android:layout_width="wrap_content"
@@ -120,8 +126,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <ProgressBar
+            android:id="@+id/fragment_detail_form_pb_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Go.Progress"/>
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/fragment_detail_form_mb_savek"
+            android:id="@+id/fragment_detail_form_mb_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
