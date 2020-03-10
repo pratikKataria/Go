@@ -36,4 +36,9 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:visibility">gone</item>
     </style>
+
+    <style name="Widget.Go.DatePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+    </style>
 </resources>

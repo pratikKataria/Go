@@ -1,15 +1,8 @@
 package com.tricky_tweaks.go.LoginBundle.fragment;
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
-import android.provider.MediaStore;
-import android.service.autofill.VisibilitySetterAction;
-import android.text.style.CharacterStyle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +16,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tricky_tweaks.go.R;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +47,7 @@ public class DetailFormFragment extends Fragment {
     ProgressBar end_pb;
 
     TextView genderSelected;
+    MaterialButton dateSelector;
 
     private void init_fields(View v) {
         userName = v.findViewById(R.id.fragment_detail_form_et_username);
@@ -69,6 +63,8 @@ public class DetailFormFragment extends Fragment {
 
         genderGroup = v.findViewById(R.id.fragment_detail_form_rg_gender);
         genderSelected = v.findViewById(R.id.fragment_detail_form_tv_gen_selected);
+
+        dateSelector = v.findViewById(R.id.fragment_detail_form_mb_date_picker);
     }
 
     public DetailFormFragment() {
@@ -154,9 +150,25 @@ public class DetailFormFragment extends Fragment {
             }
         });
 
-
+        dateSelector.setOnClickListener(v -> showDateSelector());
         return view;
     }
+
+    private void showDateSelector() {
+
+        final Calendar c = Calendar.getInstance();
+        year = c.get(Calendar.YEAR);
+        month = c.get(Calendar.MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getActivity(),
+                R.style.Widget_Go_DatePicker,
+                ((view, year1, month1, dayOfMonth) -> dateSelector.setText(dayOfMonth +"/" + (month + 1) + "/"+ year)), year, month, day);
+        datePickerDialog.show();
+    }
+
+    private int year, month, day;
 
     private void showProgress() {
         start_pb.setVisibility(View.VISIBLE);
