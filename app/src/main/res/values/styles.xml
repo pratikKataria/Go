@@ -15,6 +15,7 @@
     <style name="Widget.Go.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/ic_round_corner_rect</item>
         <item name="android:backgroundTint">@color/colorPrimaryDark</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:padding">@dimen/edit_text_padding</item>
     </style>
 

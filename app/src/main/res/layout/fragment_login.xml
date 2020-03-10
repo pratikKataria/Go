@@ -57,6 +57,15 @@
                 android:inputType="textPassword"
                 style="@style/Widget.Go.EditText"/>
 
+            <ProgressBar
+                android:id="@+id/fragment_login_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fragment_login_mb_login"
                 android:layout_width="match_parent"

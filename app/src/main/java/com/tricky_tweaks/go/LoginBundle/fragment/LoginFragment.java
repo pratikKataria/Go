@@ -3,12 +3,15 @@ package com.tricky_tweaks.go.LoginBundle.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,17 +22,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
 
@@ -42,6 +45,8 @@ import java.util.regex.Pattern;
 public class LoginFragment extends Fragment{
 
     public static final int RC_SIGN_IN = 234;
+
+    private ProgressBar progressBar;
 
     GoogleSignInClient googleSignInClient;
 
@@ -69,6 +74,7 @@ public class LoginFragment extends Fragment{
         EditText editTextEmail = view.findViewById(R.id.fragment_login_et_email);
         EditText editTextPassword = view.findViewById(R.id.fragment_login_et_password);
         MaterialButton materialButtonLogin = view.findViewById(R.id.fragment_login_mb_login);
+        progressBar = view.findViewById(R.id.fragment_login_pb);
 
         materialButtonLogin.setOnClickListener(v -> {
             if (editTextEmail.getText().toString().isEmpty()) {
@@ -94,17 +100,6 @@ public class LoginFragment extends Fragment{
 
             loginUsingEmailPassword(editTextEmail.getText().toString(), editTextPassword.getText().toString());
 
-//            editTextPassword.setOnKeyListener(new View.OnKeyListener() {
-//                @Override
-//                public boolean onKey(View v, int keyCode, KeyEvent event) {
-//
-//                    if (isPasswordValid(editTextPassword.getText())) {
-//                        editTextPassword.setError(null);
-//
-//                    }
-//                    return false;
-//                }
-//            });
 
         });
 
@@ -127,8 +122,9 @@ public class LoginFragment extends Fragment{
             try {
                  GoogleSignInAccount account = task.getResult(ApiException.class);
 
-                 firebaseAuthWithGoogle(account);
+                firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -140,12 +136,22 @@ public class LoginFragment extends Fragment{
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        ((NavigationHost)getActivity()).navigateTo(new SignUpFragment(), false);
+                        new Handler().postDelayed(()->{
+                            progressBar.setVisibility(View.GONE);
+                            ((NavigationHost)getActivity()).navigateTo(new DetailFormFragment(), false);
+                        }, 1000);
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "error creating account", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }).addOnFailureListener(e -> {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void signInWithGoogle() {
+        progressBar.setVisibility(View.VISIBLE);
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -165,4 +171,21 @@ public class LoginFragment extends Fragment{
     private void loginUsingEmailPassword(String toString, String toString1) {
     }
 
+    private void checkUserInfo(String getUid) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference studentNode = rootRef.child("Student").child(getUid);
+        rootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("LOGIN FRAGMENT" , value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 }
