@@ -32,6 +32,7 @@ import com.tricky_tweaks.go.R;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -57,6 +58,8 @@ public class DetailFormFragment extends Fragment {
     MaterialButton dateSelector;
 
     private int year, month, day;
+
+    private static String sBranch = "EC", sSemester = "I";
 
     private void init_fields(View v) {
         userId = v.findViewById(R.id.fragment_detail_form_tv_uid);
@@ -112,11 +115,11 @@ public class DetailFormFragment extends Fragment {
                 return;
             }
 
-            if (userPhoneNo.getText().toString().length() >= 10) {
-                userPhoneNo.setError("must be 10");
-                userPhoneNo.requestFocus();
-                return;
-            }
+//            if (userPhoneNo.getText().toString().length() >= 9) {
+//                userPhoneNo.setError("must be 10");
+//                userPhoneNo.requestFocus();
+//                return;
+//            }
 
             if (fatherName.getText().toString().isEmpty()) {
                 fatherName.setError("should not be empty");
@@ -130,11 +133,11 @@ public class DetailFormFragment extends Fragment {
                 return;
             }
 
-            if (fatherPhoneNumber.getText().toString().length() >= 10) {
-                fatherPhoneNumber.setError("must be 10");
-                fatherPhoneNumber.requestFocus();
-                return;
-            }
+//            if (fatherPhoneNumber.getText().toString().length() >= 10) {
+//                fatherPhoneNumber.setError("must be 10");
+//                fatherPhoneNumber.requestFocus();
+//                return;
+//            }
 
             if (address.getText().toString().isEmpty()) {
                 address.setError("should not be empty");
@@ -142,13 +145,47 @@ public class DetailFormFragment extends Fragment {
                 return;
             }
 
-            int age = year - Calendar.DAY_OF_YEAR;
+//            int age = year - Calendar.YEAR;
+//
+//            if (age > 16) {
+//                dateSelector.setText("select proper age");
+//                new Handler().postDelayed(() -> {dateSelector.setText("select dob");},1000);
+//                return;
+//            }
 
-            if (age > 16) {
-                dateSelector.setText("select proper age");
-                new Handler().postDelayed(() -> {dateSelector.setText("select dob");},1000);
-                return;
-            }
+            Map<String, Object> map = new HashMap<>();
+
+            map.put("s_id", FirebaseAuth.getInstance().getUid());
+            map.put("s_name", userName.getText().toString());
+            map.put("s_branch", sBranch);
+            map.put("s_sem", sSemester);
+            map.put("s_room_no", roomNo.getText().toString());
+            map.put("s_phone_no", userPhoneNo.getText().toString());
+            map.put("s_dob", dateSelector.getText().toString());
+            map.put("s_father_name", fatherName.getText().toString());
+            map.put("s_father_phone_no", fatherPhoneNumber.getText().toString());
+            map.put("s_address", address.getText().toString());
+
+
+            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid());
+            rootRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Map<String, Object> map  = new HashMap();
+                    map.put("s_dob/year", year);
+                    map.put("s_dob/month", month);
+                    map.put("s_dob/day", day);
+                    rootRef.updateChildren(map);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    hideProgress();
+                }
+            });
+
+            Toast.makeText(getActivity(), " successfull ", Toast.LENGTH_SHORT).show();
 
         });
 
@@ -191,7 +228,8 @@ public class DetailFormFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedBranch.setText("Branch selected: " + parent.getItemAtPosition(position).toString());
-                Toast.makeText(getContext(), "selected"+ parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                sBranch = parent.getItemAtPosition(position).toString();
+                Toast.makeText(getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -213,7 +251,8 @@ public class DetailFormFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 semesterBranch.setText("Semester selected: " + parent.getItemAtPosition(position).toString());
-                Toast.makeText(getContext(), "selected"+ parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+                sSemester = parent.getItemAtPosition(position).toString();
+                Toast.makeText(getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -246,7 +285,7 @@ public class DetailFormFragment extends Fragment {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 getActivity(),
                 R.style.Widget_Go_DatePicker,
-                ((view, year1, month1, dayOfMonth) -> dateSelector.setText(dayOfMonth +"/" + (month + 1) + "/"+ year)), year, month, day);
+                ((view, year1, month1, dayOfMonth) -> dateSelector.setText(dayOfMonth +"/" + (month1 + 1) + "/"+ year1)), year, month, day);
         datePickerDialog.show();
     }
 
