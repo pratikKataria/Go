@@ -56,18 +56,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:layout_marginTop="12dp"/>
+
         <RadioGroup
+            android:id="@+id/fragment_detail_form_rg_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RadioButton
+                android:id="@+id/fragment_detail_form_rb_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="male"/>
+                android:text="male"
+                android:checked="true"/>
             <RadioButton
+                android:id="@+id/fragment_detail_form_rb_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="female"/>
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/fragment_detail_form_tv_gen_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender selected: "
+            android:textColor="@color/ceriseRed"/>
 
         <EditText
             android:id="@+id/fragment_detail_form_et_room_no"

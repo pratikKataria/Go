@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.provider.MediaStore;
 import android.service.autofill.VisibilitySetterAction;
@@ -13,7 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,7 +37,8 @@ import java.util.Map;
 public class DetailFormFragment extends Fragment {
 
     EditText userName;
-    RadioGroup gender;
+    RadioGroup genderGroup;
+    RadioButton radioButton;
     EditText roomNo;
     EditText userPhoneNo;
     EditText fatherName;
@@ -43,6 +48,8 @@ public class DetailFormFragment extends Fragment {
 
     ProgressBar start_pb;
     ProgressBar end_pb;
+
+    TextView genderSelected;
 
     private void init_fields(View v) {
         userName = v.findViewById(R.id.fragment_detail_form_et_username);
@@ -55,6 +62,9 @@ public class DetailFormFragment extends Fragment {
         saveButton = v.findViewById(R.id.fragment_detail_form_mb_save);
         start_pb = v.findViewById(R.id.fragment_detail_form_pb_start);
         end_pb = v.findViewById(R.id.fragment_detail_form_pb_end);
+
+        genderGroup = v.findViewById(R.id.fragment_detail_form_rg_gender);
+        genderSelected = v.findViewById(R.id.fragment_detail_form_tv_gen_selected);
     }
 
     public DetailFormFragment() {
@@ -88,6 +98,13 @@ public class DetailFormFragment extends Fragment {
                 }
             }).addOnFailureListener(e -> hideProgress());
         });
+
+        genderSelected.setText("Gender selected: male");
+        genderGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            radioButton = view.findViewById(checkedId);
+            genderSelected.setText("Gender selected: " + radioButton.getText().toString());
+        });
+
         return view;
     }
 
