@@ -3,6 +3,7 @@ package com.tricky_tweaks.go.LoginBundle.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tricky_tweaks.go.R;
@@ -33,6 +39,7 @@ import java.util.Map;
  */
 public class DetailFormFragment extends Fragment {
 
+    TextView userId;
     EditText userName;
     RadioGroup genderGroup;
     RadioButton radioButton;
@@ -49,7 +56,10 @@ public class DetailFormFragment extends Fragment {
     TextView genderSelected;
     MaterialButton dateSelector;
 
+    private int year, month, day;
+
     private void init_fields(View v) {
+        userId = v.findViewById(R.id.fragment_detail_form_tv_uid);
         userName = v.findViewById(R.id.fragment_detail_form_et_username);
         roomNo = v.findViewById(R.id.fragment_detail_form_et_room_no);
         userPhoneNo = v.findViewById(R.id.fragment_detail_form_et_phone_no);
@@ -80,24 +90,86 @@ public class DetailFormFragment extends Fragment {
 
         init_fields(view);
 
+        getUserId();
+
         saveButton.setOnClickListener(v -> {
 
-            showProgress();
+            if (userName.getText().toString().isEmpty()) {
+                userName.setError("should not be empty");
+                userName.requestFocus();
+                return;
+            }
 
-            Map<String, Object> map = new HashMap<>();
-            map.put("s_name", userName.getText().toString());
-            map.put("s_phoneNo", userPhoneNo.getText().toString());
+            if (roomNo.getText().toString().isEmpty()) {
+                roomNo.setError("should not be empty");
+                roomNo.requestFocus();
+                return;
+            }
 
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Student/"+FirebaseAuth.getInstance().getUid());
+            if (userPhoneNo.getText().toString().isEmpty()) {
+                userPhoneNo.setError("should not be empty");
+                userPhoneNo.requestFocus();
+                return;
+            }
 
-            databaseReference.updateChildren(map).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    hideProgress();
-                } else {
-                    hideProgress();
-                }
-            }).addOnFailureListener(e -> hideProgress());
+            if (userPhoneNo.getText().toString().length() >= 10) {
+                userPhoneNo.setError("must be 10");
+                userPhoneNo.requestFocus();
+                return;
+            }
+
+            if (fatherName.getText().toString().isEmpty()) {
+                fatherName.setError("should not be empty");
+                fatherName.requestFocus();
+                return;
+            }
+
+            if (fatherPhoneNumber.getText().toString().isEmpty()) {
+                fatherPhoneNumber.setError("should not be empty");
+                fatherPhoneNumber.requestFocus();
+                return;
+            }
+
+            if (fatherPhoneNumber.getText().toString().length() >= 10) {
+                fatherPhoneNumber.setError("must be 10");
+                fatherPhoneNumber.requestFocus();
+                return;
+            }
+
+            if (address.getText().toString().isEmpty()) {
+                address.setError("should not be empty");
+                address.requestFocus();
+                return;
+            }
+
+            int age = year - Calendar.DAY_OF_YEAR;
+
+            if (age > 16) {
+                dateSelector.setText("select proper age");
+                new Handler().postDelayed(() -> {dateSelector.setText("select dob");},1000);
+                return;
+            }
+
         });
+
+//        saveButton.setOnClickListener(v -> {
+//
+//            showProgress();
+//
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("s_name", userName.getText().toString());
+//            map.put("s_phoneNo", userPhoneNo.getText().toString());
+//
+//            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Student/"+FirebaseAuth.getInstance().getUid());
+//
+//            databaseReference.updateChildren(map).addOnCompleteListener(task -> {
+//                if (task.isSuccessful()) {
+//                    hideProgress();
+//                } else {
+//                    hideProgress();
+//                }
+//            }).addOnFailureListener(e -> hideProgress());
+//        });
 
         genderSelected.setText("Gender selected: male");
         genderGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -154,6 +226,16 @@ public class DetailFormFragment extends Fragment {
         return view;
     }
 
+    private boolean getUserId() {
+        if (FirebaseAuth.getInstance().getUid() != null) {
+            userId.setText(FirebaseAuth.getInstance().getUid());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     private void showDateSelector() {
 
         final Calendar c = Calendar.getInstance();
@@ -168,7 +250,6 @@ public class DetailFormFragment extends Fragment {
         datePickerDialog.show();
     }
 
-    private int year, month, day;
 
     private void showProgress() {
         start_pb.setVisibility(View.VISIBLE);

@@ -46,12 +46,17 @@
             android:layout_gravity="center"
             android:layout_marginTop="12dp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student Name"/>
+
         <EditText
             android:id="@+id/fragment_detail_form_et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Go.EditText"
-            android:hint="username"/>
+            android:hint="student name"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -118,6 +123,11 @@
             android:text="Gender selected: "
             android:textColor="@color/ceriseRed"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room No"/>
+
         <EditText
             android:id="@+id/fragment_detail_form_et_room_no"
             android:layout_width="match_parent"
@@ -126,13 +136,24 @@
             style="@style/Widget.Go.EditText"
             android:inputType="number"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student phone number"/>
+
         <EditText
             android:id="@+id/fragment_detail_form_et_phone_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="user phone no"
+            android:hint="Student phone no"
+            android:maxLength="10"
             style="@style/Widget.Go.EditText"
             android:inputType="number"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Father name"/>
 
         <EditText
             android:id="@+id/fragment_detail_form_et_father_name"
@@ -141,13 +162,24 @@
             style="@style/Widget.Go.EditText"
             android:hint="fathername" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Father Phone Number"/>
+
         <EditText
             android:id="@+id/fragment_detail_form_et_father_phone_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.Go.EditText"
+            android:maxLength="10"
             android:inputType="number"
             android:hint="fathername phone no" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"/>
 
         <EditText
             android:id="@+id/fragment_detail_form_et_address"
@@ -167,6 +199,12 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
             android:text="show date picker"/>
+
+        <TextView
+            android:id="@+id/fragment_detail_form_tv_selected_dob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="selected dob"/>
 
         <TextView
             android:layout_width="wrap_content"
