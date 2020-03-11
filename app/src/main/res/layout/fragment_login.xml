@@ -95,9 +95,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="  don't have account \n Signin   "
+            android:text="  don't have account\nSignin"
             android:clickable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             style="@style/Widget.Go.TextView.Center" />
+
+        <TextView
+            android:id="@+id/fragment_login_tv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/ceriseRed"
+            style="@style/Widget.Go.TextView.Center">
+        </TextView>
     </LinearLayout>
 </ScrollView>

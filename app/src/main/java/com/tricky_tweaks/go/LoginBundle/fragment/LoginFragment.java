@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
 
@@ -52,6 +54,8 @@ public class LoginFragment extends Fragment{
 
     FirebaseAuth auth;
 
+    private TextView textError;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -62,6 +66,8 @@ public class LoginFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        textError = view.findViewById(R.id.fragment_login_tv_error);
 
         auth = FirebaseAuth.getInstance();
 
@@ -116,7 +122,6 @@ public class LoginFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -130,22 +135,25 @@ public class LoginFragment extends Fragment{
         }
     }
 
+    private void showError(String message) {
+        textError.setText(message);
+        new Handler().postDelayed(() -> textError.setText(""), 60000);
+    }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        new Handler().postDelayed(()->{
-                            progressBar.setVisibility(View.GONE);
-                            ((NavigationHost)getActivity()).navigateTo(new DetailFormFragment(), false);
-                        }, 1000);
+                            checkUserInfo(FirebaseAuth.getInstance().getUid());
                     } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "error creating account", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(e -> {
             progressBar.setVisibility(View.GONE);
+            showError(e.getMessage());
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
@@ -171,14 +179,22 @@ public class LoginFragment extends Fragment{
     private void loginUsingEmailPassword(String toString, String toString1) {
     }
 
-    private void checkUserInfo(String getUid) {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference studentNode = rootRef.child("Student").child(getUid);
-        rootRef.addValueEventListener(new ValueEventListener() {
+    private void checkUserInfo(String uid) {
+        DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference();
+        studentNode.child("Students").child(uid).child("/s_name");
+        studentNode.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                Log.d("LOGIN FRAGMENT" , value);
+                Log.e("Login fragment", dataSnapshot.getValue() + "");
+                if (dataSnapshot.getValue() == null) {
+                    progressBar.setVisibility(View.GONE);
+                    ((NavigationHost) getActivity()).navigateTo(new DetailFormFragment(), false);
+
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    startActivity(new Intent(getContext(), MainActivity.class));
+
+                }
             }
 
             @Override
