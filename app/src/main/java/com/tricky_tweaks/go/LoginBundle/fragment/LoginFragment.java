@@ -146,7 +146,7 @@ public class LoginFragment extends Fragment{
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                            checkUserInfo(FirebaseAuth.getInstance().getUid());
+                            checkUserInfo();
                     } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "error creating account", Toast.LENGTH_SHORT).show();
@@ -169,7 +169,7 @@ public class LoginFragment extends Fragment{
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
-    }
+}
 
     private boolean isPasswordValid(Editable input) {
         return input != null && input.length() >= 8;
@@ -179,14 +179,13 @@ public class LoginFragment extends Fragment{
     private void loginUsingEmailPassword(String toString, String toString1) {
     }
 
-    private void checkUserInfo(String uid) {
-        DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference();
-        studentNode.child("Students").child(uid).child("/s_name");
+    private void checkUserInfo() {
+        DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid()).child("s_name");
         studentNode.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.e("Login fragment", dataSnapshot.getValue() + "");
-                if (dataSnapshot.getValue() == null) {
+                if (dataSnapshot.getValue(String.class) == null) {
                     progressBar.setVisibility(View.GONE);
                     ((NavigationHost) getActivity()).navigateTo(new DetailFormFragment(), false);
 

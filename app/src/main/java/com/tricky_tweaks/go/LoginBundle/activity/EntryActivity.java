@@ -25,10 +25,10 @@ public class EntryActivity extends AppCompatActivity implements NavigationHost {
 
         switch (event) {
             case 0:
-                getSupportFragmentManager().beginTransaction().add(R.id.activity_entry_container, new LoginFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_entry_container, new LoginFragment()).commit();
                 break;
             case 1:
-                getSupportFragmentManager().beginTransaction().add(R.id.activity_entry_container, new DetailFormFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_entry_container, new DetailFormFragment()).commit();
                 break;
         }
 
@@ -38,7 +38,6 @@ public class EntryActivity extends AppCompatActivity implements NavigationHost {
     @Override
     public void navigateTo(Fragment fragment, boolean addToBackstack) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction().replace(R.id.activity_entry_container, fragment);
-
         if (addToBackstack) {
             fragmentTransaction.addToBackStack(null);
         }
