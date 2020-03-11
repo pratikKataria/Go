@@ -2,6 +2,7 @@ package com.tricky_tweaks.go.LoginBundle.fragment;
 
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.R;
 
 import java.util.Calendar;
@@ -177,6 +179,10 @@ public class DetailFormFragment extends Fragment {
                     map.put("s_dob/day", day);
                     rootRef.updateChildren(map);
 
+                    Toast.makeText(getActivity(), " successfull ", Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(getContext() , MainActivity.class));
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -184,9 +190,6 @@ public class DetailFormFragment extends Fragment {
                     hideProgress();
                 }
             });
-
-            Toast.makeText(getActivity(), " successfull ", Toast.LENGTH_SHORT).show();
-
         });
 
 //        saveButton.setOnClickListener(v -> {
