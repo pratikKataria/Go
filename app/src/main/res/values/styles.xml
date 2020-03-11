@@ -42,4 +42,13 @@
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:backgroundTint">@color/colorPrimaryDark</item>
     </style>
+
+    <style name="MenuButtonsStyle">
+        <item name="menu_fab_size">normal</item>
+        <item name="menu_colorNormal">@color/colorPrimary</item>
+        <item name="menu_colorPressed">@color/colorPrimary</item>
+        <item name="menu_icon">@drawable/fab_add</item>
+        <item name="fab_colorNormal">@color/colorAccent</item>
+        <item name="fab_colorPressed">#F2AB00</item>
+    </style>
 </resources>
