@@ -1,10 +1,11 @@
 package com.tricky_tweaks.go.LoginBundle.activity;
 
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
 
 import com.tricky_tweaks.go.LoginBundle.fragment.DetailFormFragment;
 import com.tricky_tweaks.go.LoginBundle.fragment.LoginFragment;
@@ -18,7 +19,19 @@ public class EntryActivity extends AppCompatActivity implements NavigationHost {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.activity_entry_container, new LoginFragment()).commit();
+        int event = getIntent().getIntExtra("EVENT", 0);
+
+        Log.e("EntryActivity", event+"");
+
+        switch (event) {
+            case 0:
+                getSupportFragmentManager().beginTransaction().add(R.id.activity_entry_container, new LoginFragment()).commit();
+                break;
+            case 1:
+                getSupportFragmentManager().beginTransaction().add(R.id.activity_entry_container, new DetailFormFragment()).commit();
+                break;
+        }
+
 
     }
 
