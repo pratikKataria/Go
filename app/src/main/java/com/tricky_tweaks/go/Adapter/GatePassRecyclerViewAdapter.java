@@ -1,19 +1,13 @@
-package com.tricky_tweaks.go;
+package com.tricky_tweaks.go.Adapter;
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.tricky_tweaks.go.GatePassData;
+import com.tricky_tweaks.go.R;
 
 import java.util.ArrayList;
 
