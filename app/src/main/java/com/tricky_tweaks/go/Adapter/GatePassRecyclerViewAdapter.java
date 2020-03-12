@@ -49,7 +49,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         public PassViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv = itemView.findViewById(R.id.text_view_card_View);
+            tv = itemView.findViewById(R.id.card_view_ap_user_id);
         }
     }
 }

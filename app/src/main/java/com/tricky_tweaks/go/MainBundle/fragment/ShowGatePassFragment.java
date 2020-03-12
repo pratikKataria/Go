@@ -128,7 +128,7 @@ public class ShowGatePassFragment extends Fragment {
 
         toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
                 getContext(),
-                view.findViewById(R.id.fragment_show_gp_rv_passes),
+                view.findViewById(R.id.fragment_show_gp_rv_passes_ll_slide),
                 new LinearInterpolator(),
                 getActivity().getDrawable(R.drawable.ic_drawer_close),
                 getActivity().getDrawable(R.drawable.ic_drawer_open)

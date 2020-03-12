@@ -10,37 +10,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="22dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_view_card_View"
+            android:id="@+id/card_view_ap_user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:text="id \u2022 "
+            android:text="application id \u2022 "
             android:layout_gravity="center"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="center">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:text="destination"
+                android:layout_weight="1"
+                android:text="destinationsdfsdfsdfsdfsdfsdsdasdasdasdsadasdasdafsdfsdfsdfsdsdfsdfsadasdsdf"
                 android:layout_gravity="center"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_margin="12dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_card_view_directions"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:text="destination"
+                android:layout_weight="1"
+                android:text="destinationsdfsdfsdfsdfsdfsdsdasdasdasdsadasdasdafsdfsdfsdfsdsdfsdfsadasdsdf"
                 android:layout_gravity="center"/>
 
         </LinearLayout>
@@ -48,16 +52,39 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
+            android:layout_margin="8dp"
+            android:fontFamily="@font/sen_b"
             android:text="approved by warden"
+            android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="12 : 12 pm"
+            android:layout_gravity="center"/>
+        <!--        \u2223-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_margin="12dp"
+            android:text="\u2223"
             android:layout_gravity="center"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="12 : 12 pm\t\t\u2223\t\tdfs"
+            android:text="12/05/2020"
             android:layout_gravity="center"/>
+    </LinearLayout>
+
 
         <View
             android:layout_width="256dp"

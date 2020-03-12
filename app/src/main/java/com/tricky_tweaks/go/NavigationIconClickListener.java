@@ -68,7 +68,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
                 context.getResources().getDimensionPixelSize(R.dimen.shr_product_grid_reveal_height);
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(sheet, "translationY", backdropShown ? translateY : 0);
-        animator.setDuration(600);
+        animator.setDuration(300);
         if (interpolator != null) {
             animator.setInterpolator(interpolator);
         }
