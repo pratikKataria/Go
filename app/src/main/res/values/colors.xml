@@ -7,4 +7,7 @@
     <color name="mainFontColor">#000000</color>
     <color name="dimColor">#cccccc</color>
     <color name="ceriseRed">#DE2869</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
 </resources>

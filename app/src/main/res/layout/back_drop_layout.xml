@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="trip"/>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="trip"/>
+        android:text="trips"
+        style="@style/Widget.Go.MaterialButton.BackDrop"/>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="trip"/>
+        android:text="application"
+        style="@style/Widget.Go.MaterialButton.BackDrop"/>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="trip"/>
+        android:text="Report"
+        style="@style/Widget.Go.MaterialButton.BackDrop"/>
+
+    <View
+        android:layout_width="159dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:background="@color/mainFontColor">
+    </View>
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:text="trip"/>
+        android:text="my account"
+        style="@style/Widget.Go.MaterialButton.BackDrop"/>
+
 
 </merge>

@@ -6,5 +6,5 @@
     <dimen name="edit_text_padding">16dp</dimen>
     <dimen name="button_padding">12dp</dimen>
     <dimen name="image_button">50dp</dimen>
-    <dimen name="shr_product_grid_reveal_height">200dp</dimen>
+    <dimen name="shr_product_grid_reveal_height">550dp</dimen>
 </resources>

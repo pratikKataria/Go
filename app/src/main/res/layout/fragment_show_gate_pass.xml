@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:contentInsetStart="0dp"
-            app:navigationIcon="@drawable/ic_arrow_right"
+            app:navigationIcon="@drawable/ic_drawer_close"
             app:title="Go"/>
 
 
@@ -39,6 +39,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_show_gp_rv_passes"
+            android:layout_margin="40dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
