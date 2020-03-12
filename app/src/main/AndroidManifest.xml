@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainBundle.activity.GatePassActivity"></activity>
-        <activity android:name=".SplashActivity">
+        <activity android:name=".LoginBundle.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

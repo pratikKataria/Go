@@ -1,4 +1,4 @@
-package com.tricky_tweaks.go;
+package com.tricky_tweaks.go.LoginBundle.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,12 +16,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.tricky_tweaks.go.LoginBundle.activity.EntryActivity;
-import com.tricky_tweaks.go.LoginBundle.activity.WelcomeActivity;
+import com.tricky_tweaks.go.FirebaseCallback;
+import com.tricky_tweaks.go.GatePassData;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
+import com.tricky_tweaks.go.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -32,6 +32,9 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
 
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         boolean isFirstRun = preferences.getBoolean("FIRST_RUN", true);
@@ -115,9 +118,10 @@ public class SplashActivity extends AppCompatActivity {
                 }, 1200);
                 break;
             case MAIN_ACTIVITY:
-                new Handler().postDelayed(() -> {
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                }, 1200);
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+
+//                new Handler().postDelayed(() -> {
+//                }, 1200);
                 break;
         }
     }
