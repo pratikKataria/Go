@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.material.internal.NavigationMenuItemView;
-
 /**
  * {@link android.view.View.OnClickListener} used to translate the product grid sheet downward on
  * the Y-axis when the navigation icon in the toolbar is pressed.
@@ -26,7 +24,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
     private View sheet;
     private Interpolator interpolator;
     private int height;
-    private boolean backdropShown = false;
+    private boolean backdropShown = false;//not open
     private Drawable openIcon;
     private Drawable closeIcon;
 
@@ -67,6 +65,11 @@ public class NavigationIconClickListener implements View.OnClickListener {
         final int translateY = height -
                 context.getResources().getDimensionPixelSize(R.dimen.shr_product_grid_reveal_height);
 
+        autocloseBackDrop(translateY);
+
+    }
+
+    private void autocloseBackDrop(int translateY) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(sheet, "translationY", backdropShown ? translateY : 0);
         animator.setDuration(300);
         if (interpolator != null) {

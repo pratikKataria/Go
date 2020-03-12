@@ -2,6 +2,7 @@ package com.tricky_tweaks.go.MainBundle.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,10 @@ public class ShowGatePassFragment extends Fragment {
     private GatePassRecyclerViewAdapter gatePassRecyclerViewAdapter;
     private ArrayList<GatePassData> tempList;
     private ArrayList<GatePassData> list;
+
+    private Toolbar toolbar;
+
+    private boolean isOpen = false;
 
     DatabaseReference databaseReference;
 
@@ -92,9 +98,6 @@ public class ShowGatePassFragment extends Fragment {
 
     private void popList(FirebaseCallback firebaseCallback) {
 
-
-
-
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -119,20 +122,23 @@ public class ShowGatePassFragment extends Fragment {
     }
 
     private void setUpToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.app_bar);
+        toolbar = view.findViewById(R.id.app_bar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity != null) {
             activity.setSupportActionBar(toolbar);
         }
 
-        toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
+        NavigationIconClickListener iconClickListener = new NavigationIconClickListener(
                 getContext(),
                 view.findViewById(R.id.fragment_show_gp_rv_passes_ll_slide),
                 new LinearInterpolator(),
                 getActivity().getDrawable(R.drawable.ic_drawer_close),
                 getActivity().getDrawable(R.drawable.ic_drawer_open)
-        ));
+        );
+
+        toolbar.setNavigationOnClickListener(iconClickListener);
+
     }
 
     private void setUpRecyclerView() {

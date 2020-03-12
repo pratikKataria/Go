@@ -1,49 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
     android:orientation="vertical"
     tools:context=".MainBundle.activity.CreateGatePassActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="gate pass"
-        style="@style/Widget.Go.TextView.Center" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/activity_gate_pass_et_from"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="from"/>
 
-    <EditText
-        android:id="@+id/activity_gate_pass_et_to"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="to"/>
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/activity_gate_pass_et_student_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="student count"
-        android:inputType="number"
-        android:maxLength="1"/>
+            <ImageView
+                style="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_arrow_back" />
 
-    <EditText
-        android:id="@+id/activity_gate_pass_et_reason"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="reason"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/sen_b"
+                android:text="GATE PASS"
+                android:textColor="@color/mainFontColor" />
+        </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/activity_gate_pass_mb_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
-        android:text="save"/>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="\u2022"
+                        android:textSize="42dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="18sp"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/activity_gate_pass_et_from"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="From" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="423, laalfdsfjkasdhfjkahdsfjkashdfjasfjsdfhakdasjjaksdhfjasdhfjasdhf" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorAccent"
+                                android:text="edit"
+                                android:textAllCaps="false" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:backgroundTint="@color/colorAccent"
+                                android:text="add to favorite"
+                                android:textAllCaps="false"
+                                app:icon="@drawable/ic_favorite_border" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="\u2022"
+                        android:textSize="42dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="18sp"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/activity_gate_pass_et_to"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="To" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="423, laalfdsfjkasdhfjkahdsfjkashdfjasfjsdfhakdasjjaksdhfjasdhfjasdhf" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/colorAccent"
+                                android:text="edit"
+                                android:textAllCaps="false" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:backgroundTint="@color/colorAccent"
+                                android:text="add to favorite"
+                                android:textAllCaps="false"
+                                app:icon="@drawable/ic_favorite_border" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="363dp"
+                android:layout_margin="8dp"
+                android:background="@color/black"/>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            android:fontFamily="@font/sen_b"
+            android:drawableStart="@drawable/ic_duration"
+            android:drawablePadding="12dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="ex: 30 mins"
+            android:padding="12dp"
+            android:layout_marginStart="38dp"
+            android:background="@color/colorPrimary"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modrator"
+            android:fontFamily="@font/sen_b"
+            android:drawableStart="@drawable/ic_person"
+            android:drawablePadding="12dp"
+            android:gravity="center"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="student count"
+            android:fontFamily="@font/sen_b"
+            android:drawableStart="@drawable/ic_person_add_black_24dp"
+            android:drawablePadding="12dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/activity_gate_pass_et_student_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="ex: 4 mins"
+            android:padding="12dp"
+            android:layout_marginStart="38dp"
+            android:background="@color/colorPrimary"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reason"
+            android:fontFamily="@font/sen_b"
+            android:drawableStart="@drawable/ic_reason"
+            android:drawablePadding="12dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/activity_gate_pass_et_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="reason"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/activity_gate_pass_mb_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="save"/>
+
+    </LinearLayout>
+
+
+</ScrollView>
