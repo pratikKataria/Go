@@ -17,7 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.FirebaseCallback;
-import com.tricky_tweaks.go.GatePassData;
+import com.tricky_tweaks.go.DataModel.GatePassData;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.R;
 

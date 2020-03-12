@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.tricky_tweaks.go.GatePassData;
+import com.tricky_tweaks.go.DataModel.GatePassData;
 import com.tricky_tweaks.go.R;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_gp_layout, parent, false);
 
         RecyclerView.ViewHolder holder = new PassViewHolder(view);
 

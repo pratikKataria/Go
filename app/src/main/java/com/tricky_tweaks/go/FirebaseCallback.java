@@ -1,7 +1,8 @@
 package com.tricky_tweaks.go;
 
+import com.tricky_tweaks.go.DataModel.GatePassData;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public interface FirebaseCallback {
     void isExist(boolean value);

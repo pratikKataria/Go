@@ -1,4 +1,4 @@
-package com.tricky_tweaks.go;
+package com.tricky_tweaks.go.DataModel;
 
 public class GatePassData {
     private String gp_from;
