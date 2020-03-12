@@ -20,7 +20,7 @@
 
     </LinearLayout>
 
-        <androidx.appcompat.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -28,23 +28,23 @@
             app:navigationIcon="@drawable/ic_drawer_close"
             app:title="Go"/>
 
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/product_grid"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
-        android:background="@drawable/show_gate_pass_background"
         android:elevation="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:background="@drawable/show_gate_pass_background"
+        android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_show_gp_rv_passes"
             android:layout_margin="40dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
         </androidx.recyclerview.widget.RecyclerView>
-    </androidx.core.widget.NestedScrollView>
 
+    </LinearLayout>
 
 
 </FrameLayout>

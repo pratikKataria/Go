@@ -29,8 +29,42 @@
                 android:textSize="32sp"
                 android:text="destination"
                 android:layout_gravity="center"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_card_view_directions"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:text="destination"
+                android:layout_gravity="center"/>
+
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="approved by warden"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="12 : 12 pm\t\t\u2223\t\tdfs"
+            android:layout_gravity="center"/>
+
+        <View
+            android:layout_width="256dp"
+            android:layout_height="2dp"
+            android:layout_margin="15dp"
+            android:layout_gravity="center"
+            android:background="@drawable/horizontal_dashed_line"/>
 
     </LinearLayout>
 

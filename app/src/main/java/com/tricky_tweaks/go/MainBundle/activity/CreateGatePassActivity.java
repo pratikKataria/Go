@@ -19,7 +19,7 @@ public class CreateGatePassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gate_pass);
+        setContentView(R.layout.activity_create_gate_pass);
 
         EditText from = findViewById(R.id.activity_gate_pass_et_from);
         EditText to = findViewById(R.id.activity_gate_pass_et_to);
