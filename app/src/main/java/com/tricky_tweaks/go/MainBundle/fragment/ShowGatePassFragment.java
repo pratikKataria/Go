@@ -6,9 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.FirebaseCallback;
 import com.tricky_tweaks.go.GatePassData;
 import com.tricky_tweaks.go.GatePassRecyclerViewAdapter;
+import com.tricky_tweaks.go.NavigationIconClickListener;
 import com.tricky_tweaks.go.R;
 
 import java.util.ArrayList;
@@ -42,6 +47,12 @@ public class ShowGatePassFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     public void init(View v) {
         recyclerView = v.findViewById(R.id.fragment_show_gp_rv_passes);
         tempList = new ArrayList<>();
@@ -59,6 +70,7 @@ public class ShowGatePassFragment extends Fragment {
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("GatePass");
 
+        setUpToolbar(view);
 
         setUpRecyclerView();
 
@@ -105,6 +117,21 @@ public class ShowGatePassFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setUpToolbar(View view) {
+        Toolbar toolbar = view.findViewById(R.id.app_bar);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+        }
+
+        toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
+                getContext(),
+                view.findViewById(R.id.product_grid),
+                new AccelerateDecelerateInterpolator()
+        ));
     }
 
     private void setUpRecyclerView() {

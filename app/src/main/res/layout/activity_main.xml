@@ -11,69 +11,10 @@
         android:id="@+id/activity_main_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/testData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="get data">
-    </TextView>
-
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:backgroundTint="@color/colorAccent"
-            app:fabAlignmentMode="center" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            app:layout_anchor="@id/bottom_app_bar" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="42dp"
-            app:layout_anchor="@+id/floatingActionButton"
-            app:layout_anchorGravity="top|center">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/activity_main_mb_gate_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="50dp"
-                android:backgroundTint="@color/colorAccent"
-                android:fontFamily="@font/sen_b"
-                android:text="gate pass"
-                app:layout_anchor="@+id/floatingActionButton" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/activity_main_mb_leave_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
-                android:fontFamily="@font/sen_b"
-                android:text="get pass"
-                app:layout_anchor="@+id/floatingActionButton" />
-        </LinearLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
