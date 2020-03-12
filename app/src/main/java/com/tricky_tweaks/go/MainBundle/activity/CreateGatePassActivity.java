@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class GatePassActivity extends AppCompatActivity {
+public class CreateGatePassActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class GatePassActivity extends AppCompatActivity {
                     Map<String, Object> map1 = new HashMap<>();
                     map1.put("/student_passes/"+FirebaseAuth.getInstance().getUid()+"/"+s, true);
                     databaseReference.updateChildren(map1);
-                    Toast.makeText(GatePassActivity.this, "successfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateGatePassActivity.this, "successfull", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(e -> {
 
