@@ -20,6 +20,9 @@ import com.tricky_tweaks.go.LoginBundle.activity.EntryActivity;
 import com.tricky_tweaks.go.LoginBundle.activity.WelcomeActivity;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SplashActivity extends AppCompatActivity {
 
     public static final int WELCOME_ACTIVITY = 0;
@@ -40,12 +43,20 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
         } else {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                isDocPresent(value -> {
-                   if(value) {
-                       startActivityOnResult(MAIN_ACTIVITY);
-                   } else {
-                       startActivityOnResult(ENTRY_ACTIVITY);
-                   }
+                isDocPresent(new FirebaseCallback() {
+                    @Override
+                    public void isExist(boolean value) {
+                        if(value) {
+                            startActivityOnResult(MAIN_ACTIVITY);
+                        } else {
+                            startActivityOnResult(ENTRY_ACTIVITY);
+                        }
+                    }
+
+                    @Override
+                    public void getList(ArrayList<GatePassData> listData) {
+
+                    }
                 });
 
             } else {
