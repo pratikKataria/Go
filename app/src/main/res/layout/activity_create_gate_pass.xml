@@ -70,6 +70,7 @@
                             android:hint="From" />
 
                         <TextView
+                            android:id="@+id/activity_gate_pass_tv_from"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -123,6 +124,7 @@
                             android:hint="To" />
 
                         <TextView
+                            android:id="@+id/activity_gate_pass_tv_to"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -173,6 +175,7 @@
             android:gravity="center"/>
 
         <EditText
+            android:id="@+id/activity_gate_pass_et_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="ex: 30 mins"
@@ -190,6 +193,7 @@
             android:gravity="center"/>
 
         <Spinner
+            android:id="@+id/activity_gate_pass_sp_moderator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -205,7 +209,7 @@
             android:gravity="center"/>
 
         <EditText
-            android:id="@+id/activity_gate_pass_et_student_count"
+            android:id="@+id/activity_gate_pass_et_s_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="ex: 4 mins"

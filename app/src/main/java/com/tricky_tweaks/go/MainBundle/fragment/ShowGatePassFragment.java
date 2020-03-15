@@ -2,14 +2,12 @@ package com.tricky_tweaks.go.MainBundle.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.internal.NavigationMenuItemView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.FirebaseCallback;
 import com.tricky_tweaks.go.DataModel.GatePassData;
@@ -62,7 +61,7 @@ public class ShowGatePassFragment extends Fragment {
         recyclerView = v.findViewById(R.id.fragment_show_gp_rv_passes);
         tempList = new ArrayList<>();
         list = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference("GatePasses");
+        databaseReference = FirebaseDatabase.getInstance().getReference("GatePass");
     }
 
     @Override
@@ -98,13 +97,17 @@ public class ShowGatePassFragment extends Fragment {
 
     private void popList(FirebaseCallback firebaseCallback) {
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        Query q = databaseReference.orderByChild("s_id").equalTo(FirebaseAuth.getInstance().getUid());
+        q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.e("Show Gate Pass Fragment", dataSnapshot.toString());
+
                 if (dataSnapshot.exists()) {
                     tempList = new ArrayList<>();
                     for (DataSnapshot d : dataSnapshot.getChildren()) {
                         GatePassData g = d.getValue(GatePassData.class);
+                        if (g != null)
                         Log.d("SHOW GATE PASS", g.getGp_from()+"");
                         tempList.add(d.getValue(GatePassData.class));
                         gatePassRecyclerViewAdapter.notifyDataSetChanged();
@@ -119,6 +122,28 @@ public class ShowGatePassFragment extends Fragment {
 
             }
         });
+
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    tempList = new ArrayList<>();
+//                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+//                        GatePassData g = d.getValue(GatePassData.class);
+//                        Log.d("SHOW GATE PASS", g.getGp_from()+"");
+//                        tempList.add(d.getValue(GatePassData.class));
+//                        gatePassRecyclerViewAdapter.notifyDataSetChanged();
+//                    }
+//                    Log.d("SHOW GATE PASS", tempList.size()+"");
+//                    firebaseCallback.getList(tempList);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     private void setUpToolbar(View view) {

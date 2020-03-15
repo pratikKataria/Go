@@ -21,4 +21,9 @@
         <item>VII</item>
         <item>VIII</item>
     </string-array>
+
+    <string-array name="moderator">
+        <item>HOD sir</item>
+        <item>Other</item>
+    </string-array>
 </resources>
