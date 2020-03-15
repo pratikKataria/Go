@@ -93,6 +93,26 @@
             android:layout_gravity="center"/>
     </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Request"
+                app:chipIcon="@drawable/ic_check_circle_24"
+                app:chipStartPadding="8dp"
+                app:chipEndPadding="8dp"
+                style="@style/Widget.MaterialComponents.Chip.Action"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/ceriseRed"
+                android:text="pending"/>
+        </LinearLayout>
+
 
         <View
             android:layout_width="256dp"
