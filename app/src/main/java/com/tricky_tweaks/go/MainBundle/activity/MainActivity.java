@@ -1,13 +1,14 @@
 package com.tricky_tweaks.go.MainBundle.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
-import android.os.Bundle;
-
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tricky_tweaks.go.MainBundle.fragment.ShowGatePassFragment;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
 //
 //    private String contentType = "application/json";
 
+    boolean isGone = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +30,28 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
 
         getSupportFragmentManager().beginTransaction().add(R.id.activity_main_container, new ShowGatePassFragment()).commit();
 
-
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         MaterialButton mb = findViewById(R.id.activity_main_mb_gate_pass);
+        MaterialButton mb1 = findViewById(R.id.activity_main_mb_leave_pass);
+
+        fab.setOnClickListener(n -> {
+            if (isGone) {
+                mb.setVisibility(View.VISIBLE);
+                mb1.setVisibility(View.VISIBLE);
+                isGone = false;
+            } else {
+                mb.setVisibility(View.GONE);
+                mb1.setVisibility(View.GONE);
+                isGone = true;
+            }
+
+        });
+
+
         mb.setOnClickListener(n-> {
             startActivity(new Intent(MainActivity.this, CreateGatePassActivity.class));
         });
 //
-//        MaterialButton mb1 = findViewById(R.id.activity_main_mb_leave_pass);
 //        mb1.setOnClickListener(n-> {
 //            DatabaseReference documentReference = FirebaseDatabase.getInstance().getReference("GatePass/");
 //            documentReference.addValueEventListener(new ValueEventListener() {

@@ -11,7 +11,7 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
 
-
+    <color name="green">#00c0a8</color>
     <color name="Denim">#157EBF</color>
     <color name="AliceBlue">#B4DDF6</color>
     <color name="CreamBrulee">#FFE9A7</color>
@@ -28,7 +28,7 @@
 
     <color name="pureRed">#FF0000</color>
     <color name="orange">#E97939</color>
-    <color name="green">#607F55</color>
+    <color name="greenDark">#607F55</color>
     <color name="darkBrown">#3C3B1D</color>
     <color name="skin">#F8C9B5</color>
     <color name="lightGrey">#596164</color>

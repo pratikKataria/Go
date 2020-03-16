@@ -21,7 +21,7 @@
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/card_view_ap_user_name"
+            android:id="@+id/card_view_gp_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="name \u2022"

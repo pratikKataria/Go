@@ -34,12 +34,15 @@
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:borderWidth="0dp"
+            android:src="@drawable/ic_card_fab"
             android:backgroundTint="@color/colorPrimaryDark"
             app:layout_anchor="@id/bottom_app_bar" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="90dp"
+            android:gravity="top|center"
             android:layout_marginBottom="42dp"
             app:layout_anchor="@+id/floatingActionButton"
             app:layout_anchorGravity="top|center">
@@ -49,11 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="50dp"
                 android:backgroundTint="@color/colorAccent"
+                android:visibility="gone"
                 android:fontFamily="@font/sen_b"
-                android:text="gate pass"
-                app:layout_anchor="@+id/floatingActionButton" />
+                android:text="gate pass" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/activity_main_mb_leave_pass"
@@ -61,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:fontFamily="@font/sen_b"
-                android:text="get pass"
-                app:layout_anchor="@+id/floatingActionButton" />
+                android:visibility="gone"
+                android:text="get pass" />
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

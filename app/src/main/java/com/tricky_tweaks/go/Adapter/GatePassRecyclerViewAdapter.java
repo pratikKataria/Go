@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.tricky_tweaks.go.DataModel.GatePassData;
 import com.tricky_tweaks.go.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -139,6 +141,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     public class PassViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewUID;
+        TextView textViewName;
         TextView textViewTo;
         TextView textViewFrom;
         TextView textViewModerator;
@@ -156,6 +159,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             textViewTime = itemView.findViewById(R.id.card_view_gp_time);
         
             textViewstatus = itemView.findViewById(R.id.card_view_gp_status);
+            textViewName = itemView.findViewById(R.id.card_view_gp_user_name);
             requestButton = itemView.findViewById(R.id.card_view_gp_chip_request);
         }
     }
