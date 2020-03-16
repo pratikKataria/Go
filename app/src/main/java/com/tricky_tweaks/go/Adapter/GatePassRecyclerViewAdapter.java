@@ -53,20 +53,22 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             p.textViewUID.setText(list.get(position).getS_id());
 
             if (list.get(position).getGp_status() == 1) {
+                p.requestButton.setChipIcon(context.getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
                 p.textViewstatus.setText("accepted");
                 p.textViewstatus.setTextColor(context.getColor(R.color.green));
             } else {
+                p.requestButton.setChipIcon(context.getDrawable(R.drawable.ic_question));
                 p.textViewstatus.setText("pending");
                 p.textViewstatus.setTextColor(context.getColor(R.color.ceriseRed));
             }
 
             p.requestButton.setOnClickListener(n -> {
-                showAlertDialog(position);
+                showAlertDialog(p.requestButton, position);
                 Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
             });
     }
 
-    public void showAlertDialog(int position) {
+    public void showAlertDialog(Chip button, int position) {
         new MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme)
                 .setTitle("Request")
                 .setMessage("Would you like to accept the request ")
@@ -80,6 +82,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
+                                    button.setChipIcon(context.getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
                                     Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
@@ -88,6 +91,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                button.setChipIcon(context.getDrawable(R.drawable.ic_question));
                                 Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -103,6 +107,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            button.setChipIcon(context.getDrawable(R.drawable.ic_cancel_24));
                             Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
@@ -111,6 +116,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        button.setChipIcon(context.getDrawable(R.drawable.ic_question));
                         Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
