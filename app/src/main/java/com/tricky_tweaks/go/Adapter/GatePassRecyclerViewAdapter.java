@@ -1,7 +1,7 @@
 package com.tricky_tweaks.go.Adapter;
+
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +56,11 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 p.requestButton.setChipIcon(context.getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
                 p.textViewstatus.setText("accepted");
                 p.textViewstatus.setTextColor(context.getColor(R.color.green));
+            }
+            if (list.get(position).getGp_status() == 0) {
+                p.requestButton.setChipIcon(context.getDrawable(R.drawable.ic_cancel_24));
+                p.textViewstatus.setText("denied");
+                p.textViewstatus.setTextColor(context.getColor(R.color.pureRed));
             } else {
                 p.requestButton.setChipIcon(context.getDrawable(R.drawable.ic_question));
                 p.textViewstatus.setText("pending");
