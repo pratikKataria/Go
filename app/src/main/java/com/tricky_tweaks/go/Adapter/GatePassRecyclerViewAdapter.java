@@ -71,7 +71,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 .setTitle("Request")
                 .setMessage("Would you like to accept the request ")
                 .setCancelable(false)
-                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -92,13 +92,29 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             }
                         });
 
-                        Toast.makeText(context, "yes", Toast.LENGTH_SHORT).show();
                     }
-                }).setNeutralButton("no", new DialogInterface.OnClickListener() {
+                }).setNeutralButton("Denied", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Toast.makeText(context, "no", Toast.LENGTH_SHORT).show();
+
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
+                reference.child(list.get(position).getGp_id()).child("gp_status").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         }).show();
     }
