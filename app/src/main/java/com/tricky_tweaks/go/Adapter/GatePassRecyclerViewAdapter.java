@@ -57,7 +57,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 p.textViewstatus.setText("accepted");
                 p.textViewstatus.setTextColor(context.getColor(R.color.green));
             }
-            if (list.get(position).getGp_status() == 0) {
+            else if (list.get(position).getGp_status() == 0) {
                 p.requestButton.setChipIcon(context.getDrawable(R.drawable.ic_cancel_24));
                 p.textViewstatus.setText("denied");
                 p.textViewstatus.setTextColor(context.getColor(R.color.pureRed));
