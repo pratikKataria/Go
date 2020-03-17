@@ -143,10 +143,17 @@ public class LoginFragment extends Fragment{
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
+
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                            checkUserInfo();
+
+                        Log.e("Login fragment", FirebaseAuth.getInstance().getAccessToken(true)+"");
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students").child(FirebaseAuth.getInstance().getUid());
+                        ref.child("device_token").setValue(FirebaseAuth.getInstance().getAccessToken(true));
+
+
+                                checkUserInfo();
                     } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "error creating account", Toast.LENGTH_SHORT).show();
@@ -180,6 +187,7 @@ public class LoginFragment extends Fragment{
     }
 
     private void checkUserInfo() {
+
         DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid()).child("s_name");
         studentNode.addValueEventListener(new ValueEventListener() {
             @Override

@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -148,6 +150,8 @@ public class CreateGatePassActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
+
+
 //                    Map<String, Object> map1 = new HashMap<>();
 //                    map1.put("/student_passes/"+FirebaseAuth.getInstance().getUid()+"/"+s, true);
 //                    databaseReference.updateChildren(map1);
@@ -158,6 +162,20 @@ public class CreateGatePassActivity extends AppCompatActivity {
             }).addOnFailureListener(e -> {
                 progressBar.setVisibility(View.GONE);
             });
+
+            String salt = getSaltString();
+            String uid = FirebaseAuth.getInstance().getUid();
+            Map<String, Object> notificationMap = new HashMap<>();
+            notificationMap.put(salt+"/from", "pratik katariya");
+            notificationMap.put(salt+"/type", "pending");
+
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(FirebaseAuth.getInstance().getUid());
+                reference.updateChildren(notificationMap).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Toast.makeText(CreateGatePassActivity.this, "created notification", Toast.LENGTH_SHORT).show();
+                    }
+                });
         });
     }
 

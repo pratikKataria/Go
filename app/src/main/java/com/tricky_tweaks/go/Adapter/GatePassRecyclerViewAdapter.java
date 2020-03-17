@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,8 +17,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.DataModel.GatePassData;
 import com.tricky_tweaks.go.R;
 
@@ -53,6 +59,21 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             p.textViewModerator.setText(list.get(position).getGp_moderator());
             p.textViewTime.setText(list.get(position).getGp_time());
             p.textViewUID.setText(list.get(position).getS_id());
+
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students");
+            ref.child(FirebaseAuth.getInstance().getUid()).child("s_name").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    p.textViewName.setText("name : "+ dataSnapshot.getValue(String.class));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
 
             if (list.get(position).getGp_status() == 1) {
                 p.requestButton.setChipIcon(context.getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
