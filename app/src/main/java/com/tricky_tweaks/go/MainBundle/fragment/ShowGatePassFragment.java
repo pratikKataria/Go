@@ -1,12 +1,14 @@
 package com.tricky_tweaks.go.MainBundle.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.FirebaseCallback;
 import com.tricky_tweaks.go.DataModel.GatePassData;
 import com.tricky_tweaks.go.Adapter.GatePassRecyclerViewAdapter;
+import com.tricky_tweaks.go.LoginBundle.activity.EntryActivity;
 import com.tricky_tweaks.go.NavigationIconClickListener;
 import com.tricky_tweaks.go.R;
 
@@ -40,6 +43,8 @@ public class ShowGatePassFragment extends Fragment {
     private GatePassRecyclerViewAdapter gatePassRecyclerViewAdapter;
     private ArrayList<GatePassData> tempList;
     private ArrayList<GatePassData> list;
+
+    private TextView textViewLogout;
 
     private Toolbar toolbar;
 
@@ -61,6 +66,9 @@ public class ShowGatePassFragment extends Fragment {
         recyclerView = v.findViewById(R.id.fragment_show_gp_rv_passes);
         tempList = new ArrayList<>();
         list = new ArrayList<>();
+
+        textViewLogout = v.findViewById(R.id.bac_drop_layout_tv_logout);
+
         databaseReference = FirebaseDatabase.getInstance().getReference("GatePass");
     }
 
@@ -90,6 +98,12 @@ public class ShowGatePassFragment extends Fragment {
                 gatePassRecyclerViewAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), " " + listData.size(), Toast.LENGTH_SHORT).show();
             }
+        });
+
+        textViewLogout.setOnClickListener( n -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getContext(), EntryActivity.class));
+            getActivity().finish();
         });
 
         return view;

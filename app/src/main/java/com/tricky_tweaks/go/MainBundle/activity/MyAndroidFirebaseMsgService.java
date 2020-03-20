@@ -41,9 +41,9 @@ public class MyAndroidFirebaseMsgService  extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         Uri notificationRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-              .setContentTitle("my firebase push ")
+              .setContentTitle("you have recived new notification")
                 .setSmallIcon(R.drawable.ic_arrow_back)
-                .setContentText("mesafasdf")
+                .setContentText("gate pass request")
                 .setAutoCancel(false)
                 .setContentIntent(pendingIntent);
 

@@ -27,10 +27,19 @@
         android:background="@color/black"/>
 
     <TextView
+        android:id="@+id/bac_drop_layout_tv_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="my application"
+        android:text="logout"
         style="@style/Widget.Go.MaterialButton.BackDrop.Text"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="my applications"
+        style="@style/Widget.Go.MaterialButton.BackDrop.Text"/>
+
 
 
 </merge>

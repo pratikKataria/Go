@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
@@ -150,10 +151,8 @@ public class LoginFragment extends Fragment{
 
                         Log.e("Login fragment", FirebaseAuth.getInstance().getAccessToken(true)+"");
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students").child(FirebaseAuth.getInstance().getUid());
-                        ref.child("device_token").setValue(FirebaseAuth.getInstance().getAccessToken(true));
-
-
-                                checkUserInfo();
+                        checkDeviceToken();
+                        checkUserInfo();
                     } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "error creating account", Toast.LENGTH_SHORT).show();
@@ -163,6 +162,31 @@ public class LoginFragment extends Fragment{
             showError(e.getMessage());
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void checkDeviceToken() {
+        if (FirebaseAuth.getInstance().getUid() != null) {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students/");
+            ref.child(FirebaseAuth.getInstance().getUid() + "/d_token").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.e("LOGIn", dataSnapshot + "");
+                    Log.e("LOGIN", "current token " + FirebaseInstanceId.getInstance().getToken());
+                    if (dataSnapshot != null && dataSnapshot.exists()) {
+                        if (dataSnapshot.getValue(String.class).equals(FirebaseInstanceId.getInstance().getToken())) {
+                            Toast.makeText(getActivity(), "Token Verified", Toast.LENGTH_SHORT).show();
+                        } else {
+                            ref.child(FirebaseAuth.getInstance().getUid() + "/d_token").setValue(FirebaseInstanceId.getInstance().getToken(), (databaseError, databaseReference) -> Toast.makeText(getActivity(), "Token Changed", Toast.LENGTH_SHORT).show());
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     private void signInWithGoogle() {
