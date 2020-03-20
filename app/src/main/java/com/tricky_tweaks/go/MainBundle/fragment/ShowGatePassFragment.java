@@ -111,7 +111,9 @@ public class ShowGatePassFragment extends Fragment {
 
     private void popList(FirebaseCallback firebaseCallback) {
 
+        DatabaseReference ref = databaseReference.orderByChild("gp_time").limitToLast(5).getRef();
         Query q = databaseReference.orderByChild("s_id").equalTo(FirebaseAuth.getInstance().getUid());
+
         q.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -123,7 +125,7 @@ public class ShowGatePassFragment extends Fragment {
                         GatePassData g = d.getValue(GatePassData.class);
                         if (g != null)
                         Log.d("SHOW GATE PASS", g.getGp_from()+"");
-                        tempList.add(d.getValue(GatePassData.class));
+                        tempList.add(0, d.getValue(GatePassData.class));
                         gatePassRecyclerViewAdapter.notifyDataSetChanged();
                     }
                     Log.d("SHOW GATE PASS", tempList.size()+"");
