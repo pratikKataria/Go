@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.tricky_tweaks.go.R;
 
 import java.util.Random;
 
@@ -41,6 +42,7 @@ public class MyAndroidFirebaseMsgService  extends FirebaseMessagingService {
         Uri notificationRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
               .setContentTitle("my firebase push ")
+                .setSmallIcon(R.drawable.ic_arrow_back)
                 .setContentText("mesafasdf")
                 .setAutoCancel(false)
                 .setContentIntent(pendingIntent);

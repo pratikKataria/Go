@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.R;
 
@@ -167,7 +168,7 @@ public class DetailFormFragment extends Fragment {
             map.put("s_father_name", fatherName.getText().toString());
             map.put("s_father_phone_no", fatherPhoneNumber.getText().toString());
             map.put("s_address", address.getText().toString());
-
+            map.put("d_token", FirebaseInstanceId.getInstance().getToken());
 
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid());
             rootRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
