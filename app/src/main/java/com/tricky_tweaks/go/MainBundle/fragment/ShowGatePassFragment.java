@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,8 +46,6 @@ public class ShowGatePassFragment extends Fragment {
     private TextView textViewLogout;
 
     private Toolbar toolbar;
-
-    private boolean isOpen = false;
 
     DatabaseReference databaseReference;
 
@@ -111,8 +108,8 @@ public class ShowGatePassFragment extends Fragment {
 
     private void popList(FirebaseCallback firebaseCallback) {
 
-        DatabaseReference ref = databaseReference.orderByChild("gp_time").limitToLast(5).getRef();
-        Query q = databaseReference.orderByChild("s_id").equalTo(FirebaseAuth.getInstance().getUid());
+        Query q =  databaseReference.orderByChild("gp_time").limitToLast(5);
+
 
         q.addValueEventListener(new ValueEventListener() {
             @Override
@@ -125,11 +122,14 @@ public class ShowGatePassFragment extends Fragment {
                         GatePassData g = d.getValue(GatePassData.class);
                         if (g != null)
                         Log.d("SHOW GATE PASS", g.getGp_from()+"");
-                        tempList.add(0, d.getValue(GatePassData.class));
-                        gatePassRecyclerViewAdapter.notifyDataSetChanged();
+                        if (g.getS_id().equals(FirebaseAuth.getInstance().getUid())) {
+                            tempList.add(0, d.getValue(GatePassData.class));
+                            gatePassRecyclerViewAdapter.notifyDataSetChanged();
+                        }
                     }
                     Log.d("SHOW GATE PASS", tempList.size()+"");
                     firebaseCallback.getList(tempList);
+                    gatePassRecyclerViewAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -138,28 +138,6 @@ public class ShowGatePassFragment extends Fragment {
 
             }
         });
-
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    tempList = new ArrayList<>();
-//                    for (DataSnapshot d : dataSnapshot.getChildren()) {
-//                        GatePassData g = d.getValue(GatePassData.class);
-//                        Log.d("SHOW GATE PASS", g.getGp_from()+"");
-//                        tempList.add(d.getValue(GatePassData.class));
-//                        gatePassRecyclerViewAdapter.notifyDataSetChanged();
-//                    }
-//                    Log.d("SHOW GATE PASS", tempList.size()+"");
-//                    firebaseCallback.getList(tempList);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     private void setUpToolbar(View view) {
