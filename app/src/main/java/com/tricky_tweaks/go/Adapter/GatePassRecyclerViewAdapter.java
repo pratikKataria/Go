@@ -52,6 +52,8 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             p.textViewTime.setText(list.get(position).getGp_time());
             p.textViewUID.setText(list.get(position).getS_id());
 
+            p.position = position;
+
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students");
             ref.child(FirebaseAuth.getInstance().getUid()).child("s_name").addValueEventListener(new ValueEventListener() {
                 @Override
@@ -67,22 +69,24 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         if (list.get(position).getGp_status() == 1) {
             p.thumbUpLottie.setProgress(100);
-            p.textViewstatus.setText("accepted");
-            p.textViewstatus.setTextColor(context.getColor(R.color.green));
+            p.textViewStatus.setText("accepted");
+            p.textViewStatus.setTextColor(context.getColor(R.color.green));
         } else if (list.get(position).getGp_status() == 0) {
             p.thumbDownLottie.setProgress(100);
-            p.textViewstatus.setText("denied");
-            p.textViewstatus.setTextColor(context.getColor(R.color.pureRed));
+            p.textViewStatus.setText("denied");
+            p.textViewStatus.setTextColor(context.getColor(R.color.pureRed));
         } else {
             p.thumbUpLottie.setProgress(0);
             p.thumbDownLottie.setProgress(0);
-            p.textViewstatus.setText("pending");
-            p.textViewstatus.setTextColor(context.getColor(R.color.ceriseRed));
+            p.textViewStatus.setText("pending");
+            p.textViewStatus.setTextColor(context.getColor(R.color.ceriseRed));
         }
 
-            p.request(position);
+        p.request(position);
 
+        p.textViewReason.setText(list.get(position).getGp_reason());
 
+        p.onReasonClicked();
     }
 
 
@@ -100,12 +104,17 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView textViewFrom;
         TextView textViewModerator;
         TextView textViewTime;
-        TextView textViewstatus;
+        TextView textViewStatus;
+        TextView textViewReason;
+        TextView textViewReasonBtn;
 
         LottieAnimationView thumbUpLottie;
         LottieAnimationView thumbDownLottie;
 
         boolean doubleTap = false;
+        boolean isHide = true;
+
+        int position = -1;
 
         public PassViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,14 +124,45 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             textViewModerator = itemView.findViewById(R.id.card_view_gp_moderator);
             textViewTime = itemView.findViewById(R.id.card_view_gp_time);
         
-            textViewstatus = itemView.findViewById(R.id.card_view_gp_status);
+            textViewStatus = itemView.findViewById(R.id.card_view_gp_status);
             textViewName = itemView.findViewById(R.id.card_view_gp_user_name);
+
+            textViewReason = itemView.findViewById(R.id.card_view_gp_tv_reason);
+            textViewReasonBtn = itemView.findViewById(R.id.card_view_gp_tv_reason_button);
 
             thumbUpLottie = itemView.findViewById(R.id.card_view_gp_thumb_up);
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
         }
 
-        public void request(int position) {
+        void onReasonClicked() {
+            textViewReasonBtn.setOnClickListener(n -> {
+                if (isHide) {
+                    revealReason();
+                    isHide = false;
+                }else {
+                    hideReason();
+                    isHide = true;
+                }
+            });
+        }
+
+        void hideReason() {
+            textViewReason.setAlpha(1f);
+
+            textViewReason.animate().alpha(0f).setDuration(1000).setListener(null);
+            textViewReasonBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0, R.drawable.ic_expand_more, 0);
+            textViewReason.setVisibility(View.GONE);
+        }
+
+        void revealReason() {
+            textViewReason.setAlpha(0f);
+            textViewReason.setVisibility(View.VISIBLE);
+
+            textViewReason.animate().alpha(1f).setDuration(1000).setListener(null);
+            textViewReasonBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_expand_less, 0);
+        }
+
+        void request(int position) {
             thumbUpLottie.setOnClickListener(v -> {
                 if (!doubleTap) {
                     doubleTap = true;

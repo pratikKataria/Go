@@ -38,6 +38,7 @@
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_card_fab"
             android:backgroundTint="@color/colorPrimaryDark"
             android:scaleType="centerInside"
             app:fabCustomSize="50dp"

@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:background="@color/white"
     app:elevation="0dp">
 
@@ -62,6 +63,31 @@
                 android:text="destinationsdfsdfsdfsdfsdfsdsdasdasdasdsadasdasdafsdfsdfsdfsdsdfsdfsadasdsdf" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/card_view_gp_tv_reason_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reason "
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_margin="4dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/sen_b"
+            android:drawableEnd="@drawable/ic_expand_more"/>
+
+        <TextView
+            android:id="@+id/card_view_gp_tv_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="reason..."
+            android:visibility="gone"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:layout_gravity="center">
+        </TextView>
 
         <TextView
             android:id="@+id/card_view_gp_moderator"
