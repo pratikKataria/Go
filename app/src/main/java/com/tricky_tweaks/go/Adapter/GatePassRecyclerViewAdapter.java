@@ -1,5 +1,6 @@
 package com.tricky_tweaks.go.Adapter;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -45,46 +47,33 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            PassViewHolder p = (PassViewHolder) holder;
-            p.textViewFrom.setText(list.get(position).getGp_from());
-            p.textViewTo.setText(list.get(position).getGp_to());
-            p.textViewModerator.setText(list.get(position).getGp_moderator());
-            p.textViewTime.setText(list.get(position).getGp_time());
-            p.textViewUID.setText(list.get(position).getS_id());
+        PassViewHolder p = (PassViewHolder) holder;
+        String from = list.get(position).getGp_from();
+        String to = list.get(position).getGp_to();
+        String moderator = list.get(position).getGp_moderator();
+        String time = list.get(position).getGp_time();
+        String id = list.get(position).getS_id();
+        String reason = list.get(position).getGp_reason();
 
-            p.position = position;
 
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students");
-            ref.child(FirebaseAuth.getInstance().getUid()).child("s_name").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    p.textViewName.setText("name : "+ dataSnapshot.getValue(String.class));
-                }
+        p.setValue(from, to, moderator, time, id, reason, position);
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students");
+        ref.child(FirebaseAuth.getInstance().getUid()).child("s_name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                p.textViewName.setText("Name : " + dataSnapshot.getValue(String.class));
+            }
 
-        if (list.get(position).getGp_status() == 1) {
-            p.thumbUpLottie.setProgress(100);
-            p.textViewStatus.setText("accepted");
-            p.textViewStatus.setTextColor(context.getColor(R.color.green));
-        } else if (list.get(position).getGp_status() == 0) {
-            p.thumbDownLottie.setProgress(100);
-            p.textViewStatus.setText("denied");
-            p.textViewStatus.setTextColor(context.getColor(R.color.pureRed));
-        } else {
-            p.thumbUpLottie.setProgress(0);
-            p.thumbDownLottie.setProgress(0);
-            p.textViewStatus.setText("pending");
-            p.textViewStatus.setTextColor(context.getColor(R.color.ceriseRed));
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        p.request(position);
+            }
+        });
 
-        p.textViewReason.setText(list.get(position).getGp_reason());
+
+        p.request();
 
         p.onReasonClicked();
     }
@@ -107,9 +96,11 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView textViewStatus;
         TextView textViewReason;
         TextView textViewReasonBtn;
+        CardView cardView;
 
         LottieAnimationView thumbUpLottie;
         LottieAnimationView thumbDownLottie;
+
 
         boolean doubleTap = false;
         boolean isHide = true;
@@ -132,7 +123,9 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             thumbUpLottie = itemView.findViewById(R.id.card_view_gp_thumb_up);
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
+            cardView = itemView.findViewById(R.id.card_view_gp);
         }
+
 
         void onReasonClicked() {
             textViewReasonBtn.setOnClickListener(n -> {
@@ -162,7 +155,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             textViewReasonBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_expand_less, 0);
         }
 
-        void request(int position) {
+        void request() {
             thumbUpLottie.setOnClickListener(v -> {
                 if (!doubleTap) {
                     doubleTap = true;
@@ -177,7 +170,6 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 thumbDownLottie.setProgress(0);
                 thumbDownLottie.cancelAnimation();
 
-                thumbUpLottie.setProgress(0);
                 thumbUpLottie.pauseAnimation();
                 thumbUpLottie.playAnimation();
             });
@@ -189,7 +181,6 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 thumbUpLottie.setProgress(0);
                 thumbUpLottie.cancelAnimation();
 
-                thumbDownLottie.setProgress(0);
                 thumbDownLottie.pauseAnimation();
                 thumbDownLottie.playAnimation();
             });
@@ -219,5 +210,32 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             });
         }
 
+        public void setValue(String from, String to, String moderator, String time, String id, String reason, int position) {
+            textViewFrom.setText(from);
+            textViewTo.setText(to);
+            textViewModerator.setText(moderator);
+            textViewTime.setText(time);
+            textViewUID.setText(id);
+            textViewReason.setText(reason);
+
+            if (list.get(position).getGp_status() == 1) {
+                thumbUpLottie.setProgress(100);
+                thumbDownLottie.setProgress(0);
+                textViewStatus.setText("accepted");
+                textViewStatus.setTextColor(context.getColor(R.color.green));
+            } else if (list.get(position).getGp_status() == 0) {
+                thumbDownLottie.setProgress(100);
+                thumbUpLottie.setProgress(0);
+                textViewStatus.setText("denied");
+                textViewStatus.setTextColor(context.getColor(R.color.pureRed));
+            } else {
+                thumbUpLottie.setProgress(0);
+                thumbDownLottie.setProgress(0);
+                textViewStatus.setText("pending");
+                textViewStatus.setTextColor(context.getColor(R.color.ceriseRed));
+            }
+
+            this.position = position;
+        }
     }
 }
