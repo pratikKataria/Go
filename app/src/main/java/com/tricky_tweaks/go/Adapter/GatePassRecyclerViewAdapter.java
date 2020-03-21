@@ -88,7 +88,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 p.textViewstatus.setTextColor(context.getColor(R.color.ceriseRed));
             }
 
-            p.request();
+            p.request(position);
 
             p.requestButton.setOnClickListener(n -> {
                 showAlertDialog(p.requestButton, position);
@@ -184,7 +184,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
         }
 
-        public void request() {
+        public void request(int position) {
             thumbUpLottie.setOnClickListener(v -> {
                 if (!doubleTap) {
                     doubleTap = true;
@@ -196,6 +196,8 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
                 Toast.makeText(context, "double tapped ", Toast.LENGTH_SHORT).show();
 
+                acceptRequest(position);
+
                 thumbDownLottie.setProgress(0);
                 thumbDownLottie.cancelAnimation();
 
@@ -206,6 +208,8 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             thumbDownLottie.setOnClickListener(v -> {
 
+                rejectRequest(position);
+
                 thumbUpLottie.setProgress(0);
                 thumbUpLottie.cancelAnimation();
 
@@ -215,12 +219,29 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             });
         }
 
-        public void acceptRequest() {
-
+        public void acceptRequest(int position) {
+            Toast.makeText(context, "accept request", Toast.LENGTH_SHORT).show();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
+            reference.child(list.get(position).getGp_id()).child("gp_status").setValue(1).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "request accepted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "failed to accept request", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(e -> Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
 
-        public void rejectRequest() {
-
+        public void rejectRequest(int position) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
+            reference.child(list.get(position).getGp_id()).child("gp_status").setValue(0).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
         }
 
     }
