@@ -166,11 +166,11 @@ public class CreateGatePassActivity extends AppCompatActivity {
             String salt = getSaltString();
             String uid = FirebaseAuth.getInstance().getUid();
             Map<String, Object> notificationMap = new HashMap<>();
-            notificationMap.put(salt+"/from", "pratik katariya");
+            notificationMap.put(salt+"/from", FirebaseAuth.getInstance().getUid());
             notificationMap.put(salt+"/type", "pending");
 
-
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(FirebaseAuth.getInstance().getUid());
+            //all notification send to pratikkatariya786.pk@gmail.com;
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child("rzhBwseySnf6l03okDFCpagJuSo1");
                 reference.updateChildren(notificationMap).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
                         Toast.makeText(CreateGatePassActivity.this, "created notification", Toast.LENGTH_SHORT).show();

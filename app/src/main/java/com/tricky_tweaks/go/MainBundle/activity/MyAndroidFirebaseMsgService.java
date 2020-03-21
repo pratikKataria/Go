@@ -29,6 +29,9 @@ public class MyAndroidFirebaseMsgService  extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        String notification_title = remoteMessage.getNotification().getTitle();
+        String notification_message = remoteMessage.getNotification().getBody();
+
         Intent intent = new Intent(this, MainActivity.class);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationID = new Random().nextInt(3000);
@@ -41,9 +44,9 @@ public class MyAndroidFirebaseMsgService  extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         Uri notificationRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-              .setContentTitle("you have recived new notification")
+              .setContentTitle(notification_title)
                 .setSmallIcon(R.drawable.ic_arrow_back)
-                .setContentText("gate pass request")
+                .setContentText(notification_message)
                 .setAutoCancel(false)
                 .setContentIntent(pendingIntent);
 
