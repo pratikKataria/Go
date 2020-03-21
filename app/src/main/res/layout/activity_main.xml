@@ -39,7 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:src="@drawable/ic_card_fab"
+            android:scaleType="centerInside"
+            app:fabCustomSize="50dp"
             app:borderWidth="0dp"
             app:layout_anchor="@id/bottom_app_bar"/>
 

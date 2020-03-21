@@ -1,7 +1,6 @@
 package com.tricky_tweaks.go.Adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,12 +92,19 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             });
 
             p.thumbUpLottie.setOnClickListener(v -> {
+                p.thumbDownLottie.setProgress(0);
+                p.thumbDownLottie.cancelAnimation();
+
                 p.thumbUpLottie.setProgress(0);
                 p.thumbUpLottie.pauseAnimation();
                 p.thumbUpLottie.playAnimation();
             });
 
         p.thumbDownLottie.setOnClickListener(v -> {
+
+            p.thumbUpLottie.setProgress(0);
+            p.thumbUpLottie.cancelAnimation();
+
             p.thumbDownLottie.setProgress(0);
             p.thumbDownLottie.pauseAnimation();
             p.thumbDownLottie.playAnimation();
@@ -110,52 +116,46 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 .setTitle("Request")
                 .setMessage("Would you like to accept the request ")
                 .setCancelable(false)
-                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton("Accept", (dialog, which) -> {
 
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
-                        reference.child(list.get(position).getGp_id()).child("gp_status").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    button.setChipIcon(context.getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
-                                    Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
-                                }
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
+                    reference.child(list.get(position).getGp_id()).child("gp_status").setValue(1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                button.setChipIcon(context.getDrawable(R.drawable.fui_ic_check_circle_black_128dp));
+                                Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                button.setChipIcon(context.getDrawable(R.drawable.ic_question));
-                                Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                    }
-                }).setNeutralButton("Denied", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
-                reference.child(list.get(position).getGp_id()).child("gp_status").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            button.setChipIcon(context.getDrawable(R.drawable.ic_cancel_24));
-                            Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                }).addOnFailureListener(e -> {
-                    button.setChipIcon(context.getDrawable(R.drawable.ic_question));
-                    Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            button.setChipIcon(context.getDrawable(R.drawable.ic_question));
+                            Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-            }
+                }).setNeutralButton("Denied", (dialog, which) -> {
+            dialog.dismiss();
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
+            reference.child(list.get(position).getGp_id()).child("gp_status").setValue(0).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        button.setChipIcon(context.getDrawable(R.drawable.ic_cancel_24));
+                        Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).addOnFailureListener(e -> {
+                button.setChipIcon(context.getDrawable(R.drawable.ic_question));
+                Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+
         }).show();
     }
 

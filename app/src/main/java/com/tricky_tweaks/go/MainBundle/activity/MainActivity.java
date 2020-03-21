@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.LottieCompositionFactory;
+import com.airbnb.lottie.LottieDrawable;
+import com.airbnb.lottie.LottieListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -20,6 +24,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.tricky_tweaks.go.MainBundle.fragment.ShowGatePassFragment;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
+
+import static com.airbnb.lottie.LottieDrawable.INFINITE;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationHost{
@@ -35,6 +41,18 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LottieDrawable lottieDrawable = new LottieDrawable();
+        LottieCompositionFactory.fromAsset(this, "fab_animation.json").addListener(
+                result -> {
+                   lottieDrawable.setComposition(result);
+                   lottieDrawable.setScale(0.5F);
+                   lottieDrawable.setRepeatMode(INFINITE);
+                   lottieDrawable.pauseAnimation();
+                }
+        );
+
+
 
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
@@ -59,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         MaterialButton mb = findViewById(R.id.activity_main_mb_gate_pass);
         MaterialButton mb1 = findViewById(R.id.activity_main_mb_leave_pass);
+
+        fab.setImageDrawable(lottieDrawable);
 
         fab.setOnClickListener(n -> {
             if (isGone) {
