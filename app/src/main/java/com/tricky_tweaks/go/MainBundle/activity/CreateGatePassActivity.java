@@ -142,7 +142,7 @@ public class CreateGatePassActivity extends AppCompatActivity {
             map.put("/" + s + "/gp_moderator", sModerator[0]);
             map.put("/" + s + "/gp_duration", duration.getText().toString());
             map.put("/" + s + "/gp_time", new Date().toString());
-            map.put("/" + s + "/gp_status", 0);
+            map.put("/" + s + "/gp_status", -1);
             //-1 = pending // 0 = seen // 1 == accepted
 
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("GatePass");
