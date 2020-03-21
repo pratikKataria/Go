@@ -1,6 +1,8 @@
 package com.tricky_tweaks.go.Adapter;
 
 import android.content.Context;
+import android.graphics.PostProcessor;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,29 +88,14 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 p.textViewstatus.setTextColor(context.getColor(R.color.ceriseRed));
             }
 
+            p.request();
+
             p.requestButton.setOnClickListener(n -> {
                 showAlertDialog(p.requestButton, position);
                 Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
             });
 
-            p.thumbUpLottie.setOnClickListener(v -> {
-                p.thumbDownLottie.setProgress(0);
-                p.thumbDownLottie.cancelAnimation();
 
-                p.thumbUpLottie.setProgress(0);
-                p.thumbUpLottie.pauseAnimation();
-                p.thumbUpLottie.playAnimation();
-            });
-
-        p.thumbDownLottie.setOnClickListener(v -> {
-
-            p.thumbUpLottie.setProgress(0);
-            p.thumbUpLottie.cancelAnimation();
-
-            p.thumbDownLottie.setProgress(0);
-            p.thumbDownLottie.pauseAnimation();
-            p.thumbDownLottie.playAnimation();
-        });
     }
 
     public void showAlertDialog(Chip button, int position) {
@@ -179,6 +166,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         LottieAnimationView thumbUpLottie;
         LottieAnimationView thumbDownLottie;
 
+        boolean doubleTap = false;
 
         public PassViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -195,5 +183,45 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             thumbUpLottie = itemView.findViewById(R.id.card_view_gp_thumb_up);
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
         }
+
+        public void request() {
+            thumbUpLottie.setOnClickListener(v -> {
+                if (!doubleTap) {
+                    doubleTap = true;
+                    new Handler().postDelayed(() -> {
+                        doubleTap = false;
+                    }, 2000);
+                    return;
+                }
+
+                Toast.makeText(context, "double tapped ", Toast.LENGTH_SHORT).show();
+
+                thumbDownLottie.setProgress(0);
+                thumbDownLottie.cancelAnimation();
+
+                thumbUpLottie.setProgress(0);
+                thumbUpLottie.pauseAnimation();
+                thumbUpLottie.playAnimation();
+            });
+
+            thumbDownLottie.setOnClickListener(v -> {
+
+                thumbUpLottie.setProgress(0);
+                thumbUpLottie.cancelAnimation();
+
+                thumbDownLottie.setProgress(0);
+                thumbDownLottie.pauseAnimation();
+                thumbDownLottie.playAnimation();
+            });
+        }
+
+        public void acceptRequest() {
+
+        }
+
+        public void rejectRequest() {
+
+        }
+
     }
 }
