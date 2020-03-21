@@ -72,62 +72,72 @@
             android:fontFamily="@font/sen_b"
             android:text="approved by warden" />
 
-    <LinearLayout
+        <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/card_view_gp_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:singleLine="true"
-            android:text="12 : 12 pm" />
-        <!--        \u2223-->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:layout_margin="12dp"
-            android:text="\u2223"
-            android:layout_gravity="center"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="12/05/2020"
-            android:layout_gravity="center"/>
-    </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/card_view_gp_chip_request"
+            <TextView
+                android:id="@+id/card_view_gp_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Request"
-                android:textColor="@color/black"
-                app:chipIcon="@drawable/ic_question"
-                app:chipStartPadding="8dp"
-                app:chipEndPadding="8dp"
-                style="@style/Widget.MaterialComponents.Chip.Action"/>
+                android:layout_gravity="center"
+                android:singleLine="true"
+                android:text="12 : 12 pm" />
+            <!--        \u2223-->
 
             <TextView
-                android:id="@+id/card_view_gp_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:textSize="14dp"
-                android:textColor="@color/ceriseRed"
-                android:text="pending"/>
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:singleLine="true"
+                android:text="\u2223" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="12/05/2020"
+            android:layout_gravity="center"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/card_view_gp_thumb_up"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                app:lottie_autoPlay="false"
+                app:lottie_fileName="thumb_up.json"
+                app:lottie_loop="false"
+                app:lottie_speed="1.25" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/card_view_gp_thumb_down"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="8dp"
+                android:rotation="180"
+                app:lottie_autoPlay="false"
+                app:lottie_fileName="thumb_down.json"
+                app:lottie_loop="false"
+                app:lottie_speed="1.25" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/card_view_gp_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="pending"
+            android:layout_gravity="center"
+            android:textColor="@color/ceriseRed"
+            android:textSize="14dp" />
 
         <View
             android:layout_width="256dp"
@@ -135,6 +145,17 @@
             android:layout_margin="15dp"
             android:layout_gravity="center"
             android:background="@drawable/horizontal_dashed_line"/>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/card_view_gp_chip_request"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Request"
+            android:textColor="@color/black"
+            app:chipEndPadding="8dp"
+            app:chipIcon="@drawable/ic_question"
+            app:chipStartPadding="8dp" />
 
     </LinearLayout>
 

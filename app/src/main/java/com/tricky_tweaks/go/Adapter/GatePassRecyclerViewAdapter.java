@@ -9,16 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,8 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.DataModel.GatePassData;
 import com.tricky_tweaks.go.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -94,6 +91,18 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 showAlertDialog(p.requestButton, position);
                 Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
             });
+
+            p.thumbUpLottie.setOnClickListener(v -> {
+                p.thumbUpLottie.setProgress(0);
+                p.thumbUpLottie.pauseAnimation();
+                p.thumbUpLottie.playAnimation();
+            });
+
+        p.thumbDownLottie.setOnClickListener(v -> {
+            p.thumbDownLottie.setProgress(0);
+            p.thumbDownLottie.pauseAnimation();
+            p.thumbDownLottie.playAnimation();
+        });
     }
 
     public void showAlertDialog(Chip button, int position) {
@@ -141,12 +150,9 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                             Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        button.setChipIcon(context.getDrawable(R.drawable.ic_question));
-                        Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                }).addOnFailureListener(e -> {
+                    button.setChipIcon(context.getDrawable(R.drawable.ic_question));
+                    Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
             }
@@ -169,7 +175,10 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView textViewTime;
         TextView textViewDate;
         TextView textViewstatus;
-        Chip requestButton;        
+        Chip requestButton;
+        LottieAnimationView thumbUpLottie;
+        LottieAnimationView thumbDownLottie;
+
 
         public PassViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -182,6 +191,9 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             textViewstatus = itemView.findViewById(R.id.card_view_gp_status);
             textViewName = itemView.findViewById(R.id.card_view_gp_user_name);
             requestButton = itemView.findViewById(R.id.card_view_gp_chip_request);
+
+            thumbUpLottie = itemView.findViewById(R.id.card_view_gp_thumb_up);
+            thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
         }
     }
 }
