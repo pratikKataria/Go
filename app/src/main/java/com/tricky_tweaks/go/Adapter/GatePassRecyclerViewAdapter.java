@@ -1,7 +1,6 @@
 package com.tricky_tweaks.go.Adapter;
 
 import android.content.Context;
-import android.graphics.PostProcessor;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,6 +65,21 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
+        if (list.get(position).getGp_status() == 1) {
+            p.thumbUpLottie.setProgress(100);
+            p.textViewstatus.setText("accepted");
+            p.textViewstatus.setTextColor(context.getColor(R.color.green));
+        } else if (list.get(position).getGp_status() == 0) {
+            p.thumbDownLottie.setProgress(100);
+            p.textViewstatus.setText("denied");
+            p.textViewstatus.setTextColor(context.getColor(R.color.pureRed));
+        } else {
+            p.thumbUpLottie.setProgress(0);
+            p.thumbDownLottie.setProgress(0);
+            p.textViewstatus.setText("pending");
+            p.textViewstatus.setTextColor(context.getColor(R.color.ceriseRed));
+        }
+
             p.request(position);
 
 
@@ -91,9 +100,8 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView textViewFrom;
         TextView textViewModerator;
         TextView textViewTime;
-        TextView textViewDate;
         TextView textViewstatus;
-        Chip requestButton;
+
         LottieAnimationView thumbUpLottie;
         LottieAnimationView thumbDownLottie;
 
@@ -109,7 +117,6 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         
             textViewstatus = itemView.findViewById(R.id.card_view_gp_status);
             textViewName = itemView.findViewById(R.id.card_view_gp_user_name);
-            requestButton = itemView.findViewById(R.id.card_view_gp_chip_request);
 
             thumbUpLottie = itemView.findViewById(R.id.card_view_gp_thumb_up);
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
@@ -124,8 +131,6 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                     }, 2000);
                     return;
                 }
-
-                Toast.makeText(context, "double tapped ", Toast.LENGTH_SHORT).show();
 
                 acceptRequest(position);
 
@@ -165,7 +170,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GatePass");
             reference.child(list.get(position).getGp_id()).child("gp_status").setValue(0).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Toast.makeText(context, "successfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "request rejected", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
                 }
