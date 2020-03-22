@@ -33,46 +33,6 @@
             android:text="Welcome back to login"
             style="@style/Widget.Go.TextView.Center"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
-
-            <EditText
-                android:id="@+id/fragment_login_et_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="email / username"
-                style="@style/Widget.Go.EditText"/>
-
-            <EditText
-                android:id="@+id/fragment_login_et_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="password"
-                android:inputType="textPassword"
-                style="@style/Widget.Go.EditText"/>
-
-            <ProgressBar
-                android:id="@+id/fragment_login_pb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Go.Progress"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/fragment_login_mb_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="login"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.Go.Button"/>
-
-        </LinearLayout>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,28 +44,36 @@
             android:id="@+id/fragment_login_ib_google"
             android:layout_width="@dimen/image_button"
             android:layout_height="@dimen/image_button"
-            android:src="@drawable/ic_google_btn"
+            android:src="@drawable/ic_google"
             android:layout_marginTop="8dp"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true" />
 
-        <TextView
+        <ProgressBar
+            android:id="@+id/fragment_login_pb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="  don't have account\nSignin"
-            android:clickable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            style="@style/Widget.Go.TextView.Center" />
+            android:layout_marginTop="10dp"
+            style="@style/Widget.Go.Progress"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_login_mb_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Admin Login"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            style="@style/Widget.Go.Button"/>
 
         <TextView
             android:id="@+id/fragment_login_tv_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/ceriseRed"
-            style="@style/Widget.Go.TextView.Center">
-        </TextView>
+            android:layout_marginTop="8dp"
+            android:text=""
+            style="@style/Widget.Go.TextView.Center" />
     </LinearLayout>
 </ScrollView>

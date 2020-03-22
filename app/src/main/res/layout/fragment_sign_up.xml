@@ -38,7 +38,7 @@
             android:id="@+id/test_image_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_google_btn"
+            android:src="@drawable/ic_google"
             android:layout_marginTop="8dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"

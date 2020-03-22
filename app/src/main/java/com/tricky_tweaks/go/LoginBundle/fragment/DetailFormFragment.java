@@ -169,28 +169,21 @@ public class DetailFormFragment extends Fragment {
             map.put("s_father_phone_no", fatherPhoneNumber.getText().toString());
             map.put("s_address", address.getText().toString());
             map.put("d_token", FirebaseInstanceId.getInstance().getToken());
+            map.put("Admin", false);
 
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid());
-            rootRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Map<String, Object> map  = new HashMap();
-                    map.put("s_dob/year", year);
-                    map.put("s_dob/month", month);
-                    map.put("s_dob/day", day);
-                    rootRef.updateChildren(map);
+            rootRef.updateChildren(map).addOnCompleteListener(task -> {
+                Map<String, Object> map1 = new HashMap();
+                map1.put("s_dob/year", year);
+                map1.put("s_dob/month", month);
+                map1.put("s_dob/day", day);
+                rootRef.updateChildren(map1);
 
-                    Toast.makeText(getActivity(), " successfull ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), " successfull ", Toast.LENGTH_SHORT).show();
 
-                    startActivity(new Intent(getContext() , MainActivity.class));
+                startActivity(new Intent(getContext() , MainActivity.class));
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    hideProgress();
-                }
-            });
+            }).addOnFailureListener(e -> hideProgress());
         });
 
 //        saveButton.setOnClickListener(v -> {

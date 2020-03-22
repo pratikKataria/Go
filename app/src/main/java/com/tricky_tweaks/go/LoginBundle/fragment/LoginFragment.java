@@ -1,6 +1,8 @@
 package com.tricky_tweaks.go.LoginBundle.fragment;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -47,20 +50,34 @@ import java.util.regex.Pattern;
  */
 public class LoginFragment extends Fragment{
 
-    public static final int RC_SIGN_IN = 234;
+    private static final int RC_SIGN_IN = 234;
+    private boolean isAdminClicked = false;
 
     private ProgressBar progressBar;
-
-    GoogleSignInClient googleSignInClient;
-
-    FirebaseAuth auth;
-
+    private MaterialButton materialButtonLogin;
+    private ImageButton imageButton;
     private TextView textError;
+
+    private GoogleSignInClient googleSignInClient;
+    private FirebaseAuth auth;
 
     public LoginFragment() {
         // Required empty public constructor
     }
 
+    private void init_fields(View view ) {
+        materialButtonLogin = view.findViewById(R.id.fragment_login_mb_login);
+        progressBar = view.findViewById(R.id.fragment_login_pb);
+        imageButton = view.findViewById(R.id.fragment_login_ib_google);
+        textError = view.findViewById(R.id.fragment_login_tv_error);
+
+        auth = FirebaseAuth.getInstance();
+    }
+
+    private void init_Google_GSO() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+        googleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,56 +85,78 @@ public class LoginFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        textError = view.findViewById(R.id.fragment_login_tv_error);
+        init_fields(view);
 
-        auth = FirebaseAuth.getInstance();
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(
-                GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
-
-        googleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
-
-
-        EditText editTextEmail = view.findViewById(R.id.fragment_login_et_email);
-        EditText editTextPassword = view.findViewById(R.id.fragment_login_et_password);
-        MaterialButton materialButtonLogin = view.findViewById(R.id.fragment_login_mb_login);
-        progressBar = view.findViewById(R.id.fragment_login_pb);
+        init_Google_GSO();
 
         materialButtonLogin.setOnClickListener(v -> {
-            if (editTextEmail.getText().toString().isEmpty()) {
-                editTextEmail.setError("field should not be empty");
-                editTextEmail.requestFocus();
+            showAlertDialogBox();
+        });
+
+        imageButton.setOnClickListener(v -> signInWithGoogle());
+
+        return view;
+    }
+
+    public void showAlertDialogBox() {
+
+        View alertLayout = LayoutInflater.from(getContext()).inflate(R.layout.alert_dialog_request, null);
+        final EditText mPassEditText = alertLayout.findViewById(R.id.alert_dialog_et_pass);
+        final MaterialButton continueBtn = alertLayout.findViewById(R.id.alert_dialog_mb_continue);
+        final MaterialButton cancelBtn = alertLayout.findViewById(R.id.alert_dialog_mb_cancel);
+        final ProgressBar progressBar = alertLayout.findViewById(R.id.progressbar);
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setView(alertLayout);
+        builder.setCancelable(false);
+
+
+        AlertDialog dialog = builder.create();
+
+        continueBtn.setOnClickListener(n -> {
+            if (mPassEditText.getText().toString().equals("")) {
+                mPassEditText.setError("should not be empty");
+                mPassEditText.requestFocus();
                 return;
             }
 
-            if (!isEmailValid(editTextEmail.getText().toString()))
-                return;
+            progressBar.setVisibility(View.VISIBLE);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Admin");
+            ref.child("password").child("login_pass").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-            if (editTextPassword.getText().toString().isEmpty()) {
-                editTextPassword.setError("password should not be empty");
-                editTextPassword.requestFocus();
-                return;
-            }
+                    Log.e("LOGING ", dataSnapshot.toString());
 
-            if (!isPasswordValid(editTextPassword.getText())) {
-                editTextPassword.setError("password is greater then 8");
-                editTextPassword.requestFocus();
-                return;
-            }
+                    String getPass = dataSnapshot.getValue(String.class);
+                    if (dataSnapshot.exists() && getPass != null && mPassEditText.getText().toString().equals(getPass)) {
+                        progressBar.setVisibility(View.GONE);
 
-            loginUsingEmailPassword(editTextEmail.getText().toString(), editTextPassword.getText().toString());
+                        Toast.makeText(getActivity(), "correct", Toast.LENGTH_SHORT).show();
 
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+
+                        Toast.makeText(getActivity(), "worng pass", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         });
 
-        ImageButton imageButton = view.findViewById(R.id.fragment_login_ib_google);
-        imageButton.setOnClickListener(
-                v -> {
-                        signInWithGoogle();
-                }
-        );
+        cancelBtn.setOnClickListener(n -> {
+            dialog.dismiss();
+            Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
+        });
 
-        return view;
+        dialog.show();
     }
 
     @Override
@@ -134,11 +173,6 @@ public class LoginFragment extends Fragment{
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    private void showError(String message) {
-        textError.setText(message);
-        new Handler().postDelayed(() -> textError.setText(""), 60000);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
@@ -173,7 +207,8 @@ public class LoginFragment extends Fragment{
                     Log.e("LOGIn", dataSnapshot + "");
                     Log.e("LOGIN", "current token " + FirebaseInstanceId.getInstance().getToken());
                     if (dataSnapshot != null && dataSnapshot.exists()) {
-                        if (dataSnapshot.getValue(String.class).equals(FirebaseInstanceId.getInstance().getToken())) {
+                        String token = dataSnapshot.getValue(String.class);
+                        if (token != null && token.equals(FirebaseInstanceId.getInstance().getToken())) {
                             Toast.makeText(getActivity(), "Token Verified", Toast.LENGTH_SHORT).show();
                         } else {
                             ref.child(FirebaseAuth.getInstance().getUid() + "/d_token").setValue(FirebaseInstanceId.getInstance().getToken(), (databaseError, databaseReference) -> Toast.makeText(getActivity(), "Token Changed", Toast.LENGTH_SHORT).show());
@@ -195,23 +230,7 @@ public class LoginFragment extends Fragment{
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    public boolean isEmailValid(String email) {
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-}
-
-    private boolean isPasswordValid(Editable input) {
-        return input != null && input.length() >= 8;
-    }
-
-
-    private void loginUsingEmailPassword(String toString, String toString1) {
-    }
-
     private void checkUserInfo() {
-
         DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid()).child("s_name");
         studentNode.addValueEventListener(new ValueEventListener() {
             @Override
@@ -234,5 +253,10 @@ public class LoginFragment extends Fragment{
             }
         });
 
+    }
+
+    private void showError(String message) {
+        textError.setText(message);
+        new Handler().postDelayed(() -> textError.setText(""), 60000);
     }
 }

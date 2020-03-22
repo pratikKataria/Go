@@ -1,8 +1,8 @@
 package com.tricky_tweaks.go.Adapter;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Handler;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,9 @@ import java.util.ArrayList;
 
 public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
+    private static final int CARD_VIEW = 1;
+    private static final int EMPTY_VIEW = 0;
+
     Context context;
     ArrayList<GatePassData> list;
 
@@ -38,50 +41,85 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_gp_layout, parent, false);
 
-        RecyclerView.ViewHolder holder = new PassViewHolder(view);
+        RecyclerView.ViewHolder holder;
+
+        if (viewType == CARD_VIEW) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_gp_layout, parent, false);
+            holder = new PassViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_layout, parent, false);
+            holder = new EmptyViewLoader(view);
+        }
+//
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_gp_layout, parent, false);
+//
+//        RecyclerView.ViewHolder holder = new PassViewHolder(view);
 
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        PassViewHolder p = (PassViewHolder) holder;
-        String from = list.get(position).getGp_from();
-        String to = list.get(position).getGp_to();
-        String moderator = list.get(position).getGp_moderator();
-        String time = list.get(position).getGp_time();
-        String id = list.get(position).getS_id();
-        String reason = list.get(position).getGp_reason();
+
+        if (holder instanceof PassViewHolder) {
+
+            PassViewHolder p = (PassViewHolder) holder;
+            String from = list.get(position).getGp_from();
+            String to = list.get(position).getGp_to();
+            String moderator = list.get(position).getGp_moderator();
+            String time = list.get(position).getGp_time();
+            String id = list.get(position).getS_id();
+            String reason = list.get(position).getGp_reason();
 
 
-        p.setValue(from, to, moderator, time, id, reason, position);
+            p.setValue(from, to, moderator, time, id, reason, position);
 
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students");
-        ref.child(FirebaseAuth.getInstance().getUid()).child("s_name").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                p.textViewName.setText("Name : " + dataSnapshot.getValue(String.class));
-            }
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students");
+            ref.child(FirebaseAuth.getInstance().getUid()).child("s_name").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    p.textViewName.setText("Name : " + dataSnapshot.getValue(String.class));
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
 
 
-        p.request();
+            p.request();
 
-        p.onReasonClicked();
+            p.onReasonClicked();
+        } else {
+            EmptyViewLoader emptyViewLoader = (EmptyViewLoader) holder;
+
+        }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (list.size() > 0) {
+            new Handler().postDelayed(() -> {
+                return;
+            },1000);
+            return CARD_VIEW;
+
+        } else {
+            return EMPTY_VIEW;
+        }
+    }
 
     @Override
     public int getItemCount() {
-        return list.size();
+
+        if (list.size() == 0) {
+            return 1;
+        } else {
+            return list.size();
+        }
     }
 
 
@@ -236,6 +274,12 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             }
 
             this.position = position;
+        }
+    }
+
+    private class EmptyViewLoader extends RecyclerView.ViewHolder {
+        public EmptyViewLoader(View view) {
+            super(view);
         }
     }
 }
