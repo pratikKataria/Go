@@ -57,6 +57,7 @@ public class LoginFragment extends Fragment{
     private MaterialButton materialButtonLogin;
     private ImageButton imageButton;
     private TextView textError;
+    private AlertDialog dialog;
 
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth auth;
@@ -90,6 +91,7 @@ public class LoginFragment extends Fragment{
         init_Google_GSO();
 
         materialButtonLogin.setOnClickListener(v -> {
+            isAdminClicked = true;
             showAlertDialogBox();
         });
 
@@ -105,14 +107,14 @@ public class LoginFragment extends Fragment{
         final MaterialButton continueBtn = alertLayout.findViewById(R.id.alert_dialog_mb_continue);
         final MaterialButton cancelBtn = alertLayout.findViewById(R.id.alert_dialog_mb_cancel);
         final ProgressBar progressBar = alertLayout.findViewById(R.id.progressbar);
-
+        final ImageButton googleIB = alertLayout.findViewById(R.id.alert_dialog_ib_google);
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()).setView(alertLayout);
         builder.setCancelable(false);
 
 
-        AlertDialog dialog = builder.create();
+        dialog = builder.create();
 
         continueBtn.setOnClickListener(n -> {
             if (mPassEditText.getText().toString().equals("")) {
@@ -132,12 +134,18 @@ public class LoginFragment extends Fragment{
                     String getPass = dataSnapshot.getValue(String.class);
                     if (dataSnapshot.exists() && getPass != null && mPassEditText.getText().toString().equals(getPass)) {
                         progressBar.setVisibility(View.GONE);
-
                         Toast.makeText(getActivity(), "correct", Toast.LENGTH_SHORT).show();
 
-                    } else {
-                        progressBar.setVisibility(View.GONE);
+                        googleIB.setVisibility(View.VISIBLE);
 
+                        googleIB.setOnClickListener(n -> {
+                            signInWithGoogle();
+                        });
+
+                    } else {
+                        googleIB.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        mPassEditText.setText("");
                         Toast.makeText(getActivity(), "worng pass", Toast.LENGTH_SHORT).show();
 
                     }
@@ -145,7 +153,7 @@ public class LoginFragment extends Fragment{
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    isAdminClicked = false;
                 }
             });
 
@@ -178,30 +186,39 @@ public class LoginFragment extends Fragment{
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
-
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        if (isAdminClicked) {
+                            dialog.dismiss();
+                            imageButton.setVisibility(View.GONE);
+                            Log.e("Login fragment", FirebaseAuth.getInstance().getAccessToken(true)+"");
+                            checkUserInfo("Admin", FirebaseAuth.getInstance().getUid(), "a_name");
+                            checkDeviceToken("Admin", FirebaseAuth.getInstance().getUid());
+                        } else {
+                            imageButton.setVisibility(View.VISIBLE);
+                            Log.e("Login fragment", FirebaseAuth.getInstance().getAccessToken(true)+"");
+                            checkUserInfo("Student", FirebaseAuth.getInstance().getUid(), "s_name");
+                            checkDeviceToken("Student", FirebaseAuth.getInstance().getUid());
+                        }
 
-                        Log.e("Login fragment", FirebaseAuth.getInstance().getAccessToken(true)+"");
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students").child(FirebaseAuth.getInstance().getUid());
-                        checkDeviceToken();
-                        checkUserInfo();
                     } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "error creating account", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(e -> {
+            imageButton.setVisibility(View.VISIBLE);
+
             progressBar.setVisibility(View.GONE);
             showError(e.getMessage());
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 
-    private void checkDeviceToken() {
+    private void checkDeviceToken(String path, String id) {
         if (FirebaseAuth.getInstance().getUid() != null) {
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students/");
-            ref.child(FirebaseAuth.getInstance().getUid() + "/d_token").addValueEventListener(new ValueEventListener() {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
+            ref.child(id + "/d_token").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.e("LOGIn", dataSnapshot + "");
@@ -230,20 +247,25 @@ public class LoginFragment extends Fragment{
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void checkUserInfo() {
-        DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference("Students/"+FirebaseAuth.getInstance().getUid()).child("s_name");
+    private void checkUserInfo(String path, String id, String var) {
+        DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference(path+"/"+ id).child(var);
         studentNode.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.e("Login fragment", dataSnapshot.getValue() + "");
                 if (dataSnapshot.getValue(String.class) == null) {
                     progressBar.setVisibility(View.GONE);
-                    ((NavigationHost) getActivity()).navigateTo(new DetailFormFragment(), false);
 
+                    if (isAdminClicked) {
+                        Log.e("Login fragment", "yo , check user info admin");
+
+                        Toast.makeText(getActivity(), "yo , check user info admin", Toast.LENGTH_SHORT).show();
+                    } else {
+                        ((NavigationHost) getActivity()).navigateTo(new DetailFormFragment(), false);
+                    }
                 } else {
                     progressBar.setVisibility(View.GONE);
                     startActivity(new Intent(getContext(), MainActivity.class));
-
                 }
             }
 
