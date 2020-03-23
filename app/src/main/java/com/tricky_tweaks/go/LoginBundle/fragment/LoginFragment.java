@@ -194,8 +194,8 @@ public class LoginFragment extends Fragment{
                         } else {
                             imageButton.setVisibility(View.VISIBLE);
                             Log.e("Login fragment", FirebaseAuth.getInstance().getAccessToken(true)+"");
-                            checkUserInfo("Student", FirebaseAuth.getInstance().getUid(), "s_name");
-                            checkDeviceToken("Student", FirebaseAuth.getInstance().getUid());
+                            checkUserInfo("Students", FirebaseAuth.getInstance().getUid(), "s_name");
+                            checkDeviceToken("Students", FirebaseAuth.getInstance().getUid());
                         }
 
                     } else {
