@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "150057242149",
+    "firebase_url": "https://gofirebaseproject-4060f.firebaseio.com",
+    "project_id": "gofirebaseproject-4060f",
+    "storage_bucket": "gofirebaseproject-4060f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150057242149:android:c3615fd690ba61505839cc",
+        "android_client_info": {
+          "package_name": "com.tricky_tweaks.go"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150057242149-ec9rm1gb8k2m6hppqscrclu6g6qrp92c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tricky_tweaks.go",
+            "certificate_hash": "3bf9be317d7d8eeb7660a0ea98b26cf65cfdb75f"
+          }
+        },
+        {
+          "client_id": "150057242149-mtrtam6bvvvrhh6ggohcm5rajfd56m0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8CKxXg5Qjlf3pOBu1B8XeX9_fXZJXF5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150057242149-mtrtam6bvvvrhh6ggohcm5rajfd56m0v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
