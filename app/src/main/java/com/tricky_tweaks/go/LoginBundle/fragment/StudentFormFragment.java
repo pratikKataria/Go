@@ -41,7 +41,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailFormFragment extends Fragment {
+public class StudentFormFragment extends Fragment {
 
     TextView userId;
     EditText userName;
@@ -83,7 +83,7 @@ public class DetailFormFragment extends Fragment {
         dateSelector = v.findViewById(R.id.fragment_detail_form_mb_date_picker);
     }
 
-    public DetailFormFragment() {
+    public StudentFormFragment() {
         // Required empty public constructor
     }
 

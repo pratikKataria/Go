@@ -2,11 +2,9 @@ package com.tricky_tweaks.go.LoginBundle.fragment;
 
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -41,9 +38,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -261,7 +255,7 @@ public class LoginFragment extends Fragment{
 
                         Toast.makeText(getActivity(), "yo , check user info admin", Toast.LENGTH_SHORT).show();
                     } else {
-                        ((NavigationHost) getActivity()).navigateTo(new DetailFormFragment(), false);
+                        ((NavigationHost) getActivity()).navigateTo(new StudentFormFragment(), false);
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
