@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,8 +17,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.tricky_tweaks.go.FirebaseCallback;
 import com.tricky_tweaks.go.DataModel.GatePassData;
+import com.tricky_tweaks.go.FirebaseCallback;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.R;
 
@@ -33,26 +34,26 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-
-
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("AppSettingPrefs", 0);
         boolean isFirstRun = preferences.getBoolean("FIRST_RUN", true);
+        boolean isAdmin = preferences.getBoolean("IS_ADMIN", false);
 
         if (isFirstRun) {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("FIRST_RUN", false);
             editor.apply();
+
             startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
-        } else {
-            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                isDocPresent(new FirebaseCallback() {
+
+        } else if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            if (isAdmin) {
+                isDocPresent("Admin", FirebaseAuth.getInstance().getUid(), "a_name", new FirebaseCallback() {
                     @Override
                     public void isExist(boolean value) {
-                        if(value) {
-                            startActivityOnResult(MAIN_ACTIVITY);
+                        if (value) {
+                            startActivityOnResult(MAIN_ACTIVITY, 1);
                         } else {
-                            startActivityOnResult(ENTRY_ACTIVITY);
+                            startActivityOnResult(ENTRY_ACTIVITY, 2);
                         }
                     }
 
@@ -61,16 +62,31 @@ public class SplashActivity extends AppCompatActivity {
 
                     }
                 });
-
             } else {
-                startActivity(new Intent(SplashActivity.this, EntryActivity.class));
-            }
+                isDocPresent("Students", FirebaseAuth.getInstance().getUid(), "s_name", new FirebaseCallback() {
+                    @Override
+                    public void isExist(boolean value) {
+                        if (value) {
+                            startActivityOnResult(MAIN_ACTIVITY, 1);
+                        } else {
+                            startActivityOnResult(ENTRY_ACTIVITY, 1);
+                        }
+                    }
 
+                    @Override
+                    public void getList(ArrayList<GatePassData> listData) {
+
+                    }
+                });
+            }
+        } else {
+            startActivity(new Intent(SplashActivity.this, EntryActivity.class));
         }
+
     }
 
-    private void isDocPresent(final FirebaseCallback firebaseCallback) {
-        DatabaseReference documentReference = FirebaseDatabase.getInstance().getReference("Students/" + FirebaseAuth.getInstance().getUid()).child("s_name");
+    private void isDocPresent(String path, String id, String var, final FirebaseCallback firebaseCallback) {
+        DatabaseReference documentReference = FirebaseDatabase.getInstance().getReference(path + "/" + id).child(var);
         final Integer[] isExist = new Integer[1];
 
         documentReference.addValueEventListener(new ValueEventListener() {
@@ -103,7 +119,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
     }
 
-    private void startActivityOnResult(int result) {
+    private void startActivityOnResult(int result, int event) {
         switch (result) {
             case WELCOME_ACTIVITY:
                 new Handler().postDelayed(() -> {
@@ -112,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
                 break;
             case ENTRY_ACTIVITY:
                 new Handler().postDelayed(() -> {
-                    startActivity(new Intent(SplashActivity.this, EntryActivity.class).putExtra("EVENT", 1));
+                    startActivity(new Intent(SplashActivity.this, EntryActivity.class).putExtra("EVENT", event));
                 }, 1200);
                 break;
             case MAIN_ACTIVITY:

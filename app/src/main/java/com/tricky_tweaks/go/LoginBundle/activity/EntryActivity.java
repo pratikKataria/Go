@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.tricky_tweaks.go.LoginBundle.fragment.AdminFormFragment;
 import com.tricky_tweaks.go.LoginBundle.fragment.StudentFormFragment;
 import com.tricky_tweaks.go.LoginBundle.fragment.LoginFragment;
 import com.tricky_tweaks.go.NavigationHost;
@@ -30,6 +31,8 @@ public class EntryActivity extends AppCompatActivity implements NavigationHost {
             case 1:
                 getSupportFragmentManager().beginTransaction().replace(R.id.activity_entry_container, new StudentFormFragment()).commit();
                 break;
+            case 2:
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_entry_container, new AdminFormFragment()).commit();
         }
 
 

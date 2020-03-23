@@ -38,7 +38,7 @@
             style="@style/Widget.Go.Progress"/>
 
         <TextView
-            android:id="@+id/fragment_detail_form_tv_uid"
+            android:id="@+id/fragment_admin_form_tv_uid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="user id :"
@@ -52,7 +52,7 @@
             android:text="Name"/>
 
         <EditText
-            android:id="@+id/fragment_detail_form_et_username"
+            android:id="@+id/fragment_admin_form_et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Go.EditText"
@@ -65,7 +65,7 @@
             android:text="Moderator Type"/>
 
         <EditText
-            android:id="@+id/fragment_detail_form_et_moderator"
+            android:id="@+id/fragment_admin_form_et_moderator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Go.EditText"
@@ -78,24 +78,24 @@
             android:layout_marginTop="12dp"/>
 
         <RadioGroup
-            android:id="@+id/fragment_detail_form_rg_gender"
+            android:id="@+id/fragment_detail_admin_rg_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RadioButton
-                android:id="@+id/fragment_detail_form_rb_male"
+                android:id="@+id/fragment_detail_admin_rb_male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="male"
                 android:checked="true"/>
             <RadioButton
-                android:id="@+id/fragment_detail_form_rb_female"
+                android:id="@+id/fragment_detail_admin_rb_female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="female"/>
         </RadioGroup>
 
         <TextView
-            android:id="@+id/fragment_detail_form_tv_gen_selected"
+            android:id="@+id/fragment_detail_admin_tv_gen_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gender selected: "
@@ -108,7 +108,7 @@
 
 
         <EditText
-            android:id="@+id/fragment_detail_form_et_father_phone_no"
+            android:id="@+id/fragment_detail_admin_et_phone_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Go.EditText"
@@ -118,13 +118,13 @@
 
 
         <ProgressBar
-            android:id="@+id/fragment_detail_form_pb_end"
+            android:id="@+id/fragment_admin_form_pb_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.Go.Progress"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/fragment_detail_form_mb_save"
+            android:id="@+id/fragment_admin_form_mb_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"

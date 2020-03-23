@@ -3,6 +3,7 @@ package com.tricky_tweaks.go.LoginBundle.fragment;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.okhttp.internal.DiskLruCache;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
@@ -251,9 +253,12 @@ public class LoginFragment extends Fragment{
                     progressBar.setVisibility(View.GONE);
 
                     if (isAdminClicked) {
-                        Log.e("Login fragment", "yo , check user info admin");
+                        ((NavigationHost) getActivity()).navigateTo(new AdminFormFragment(), false);
 
-                        Toast.makeText(getActivity(), "yo , check user info admin", Toast.LENGTH_SHORT).show();
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs",0);
+                        SharedPreferences.Editor  editor = sharedPreferences.edit();
+                        editor.putBoolean("IS_ADMIN", true);
+                        editor.apply();
                     } else {
                         ((NavigationHost) getActivity()).navigateTo(new StudentFormFragment(), false);
                     }
