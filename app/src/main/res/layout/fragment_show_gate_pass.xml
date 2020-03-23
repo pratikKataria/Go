@@ -37,13 +37,20 @@
         android:background="@drawable/show_gate_pass_background"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_show_gp_rv_passes"
-            android:layout_margin="40dp"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-        </androidx.recyclerview.widget.RecyclerView>
+            android:id="@+id/swipe_container">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_show_gp_rv_passes"
+                android:layout_margin="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
     </LinearLayout>
 

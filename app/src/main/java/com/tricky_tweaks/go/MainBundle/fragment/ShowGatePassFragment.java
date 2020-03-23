@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -49,6 +50,7 @@ public class ShowGatePassFragment extends Fragment {
     private ArrayList<GatePassData> list;
 
     private TextView textViewLogout;
+    private SwipeRefreshLayout refreshLayout;
 
     private Toolbar toolbar;
 
@@ -72,6 +74,7 @@ public class ShowGatePassFragment extends Fragment {
         list = new ArrayList<>();
 
         textViewLogout = v.findViewById(R.id.bac_drop_layout_tv_logout);
+        refreshLayout = v.findViewById(R.id.swipe_container);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("GatePass");
     }
@@ -94,8 +97,6 @@ public class ShowGatePassFragment extends Fragment {
 
         setUpRecyclerView();
 
-
-
         popList(new FirebaseCallback() {
             @Override
             public void isExist(boolean value) {
@@ -113,6 +114,23 @@ public class ShowGatePassFragment extends Fragment {
         textViewLogout.setOnClickListener(n ->
                 signout()
         );
+
+        refreshLayout.setOnRefreshListener(() -> {
+            refreshLayout.setRefreshing(true);
+            popList(new FirebaseCallback() {
+                @Override
+                public void isExist(boolean value) {
+                }
+
+                @Override
+                public void getList(ArrayList<GatePassData> listData) {
+                    list.clear();
+                    list.addAll(listData);
+                    gatePassRecyclerViewAdapter.notifyDataSetChanged();
+                    Toast.makeText(getContext(), " " + listData.size(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
         return view;
     }
@@ -146,6 +164,7 @@ public class ShowGatePassFragment extends Fragment {
 
                 if (dataSnapshot.exists()) {
                     tempList = new ArrayList<>();
+                    refreshLayout.setRefreshing(false);
                     for (DataSnapshot d : dataSnapshot.getChildren()) {
                         GatePassData g = d.getValue(GatePassData.class);
                         if (g != null)
@@ -160,13 +179,14 @@ public class ShowGatePassFragment extends Fragment {
                     }
                     Log.d("SHOW GATE PASS", tempList.size()+"");
                     firebaseCallback.getList(tempList);
+                    refreshLayout.setRefreshing(false);
                     gatePassRecyclerViewAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                refreshLayout.setRefreshing(false);
             }
         });
     }

@@ -88,9 +88,6 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
             });
 
-
-            p.request();
-
             p.onReasonClicked();
         } else {
             EmptyViewLoader emptyViewLoader = (EmptyViewLoader) holder;
@@ -130,6 +127,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView textViewStatus;
         TextView textViewReason;
         TextView textViewReasonBtn;
+        TextView textViewDoubleTap;
         CardView cardView;
 
         LottieAnimationView thumbUpLottie;
@@ -162,11 +160,14 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             textViewReason = itemView.findViewById(R.id.card_view_gp_tv_reason);
             textViewReasonBtn = itemView.findViewById(R.id.card_view_gp_tv_reason_button);
 
+            textViewDoubleTap = itemView.findViewById(R.id.card_view_gp_tv_double_tap);
+
             thumbUpLottie = itemView.findViewById(R.id.card_view_gp_thumb_up);
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
             cardView = itemView.findViewById(R.id.card_view_gp);
 
             if (!isAdmin) {
+                textViewDoubleTap.setVisibility(View.VISIBLE);
                 thumbUpLottie.setOnClickListener(this::onClick);
                 thumbDownLottie.setOnClickListener(this::onClick);
             }
@@ -200,38 +201,6 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             textViewReason.animate().alpha(1f).setDuration(1000).setListener(null);
             textViewReasonBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_expand_less, 0);
-        }
-
-        void request() {
-
-//            thumbUpLottie.setOnClickListener(v -> {
-//                if (!doubleTap) {
-//                    doubleTap = true;
-//                    new Handler().postDelayed(() -> {
-//                        doubleTap = false;
-//                    }, 2000);
-//                    return;
-//                }
-//
-//                acceptRequest(position);
-//
-//                thumbDownLottie.setProgress(0);
-//                thumbDownLottie.cancelAnimation();
-//
-//                thumbUpLottie.pauseAnimation();
-//                thumbUpLottie.playAnimation();
-//            });
-
-//            thumbDownLottie.setOnClickListener(v -> {
-//
-//                rejectRequest(position);
-//
-//                thumbUpLottie.setProgress(0);
-//                thumbUpLottie.cancelAnimation();
-//
-//                thumbDownLottie.pauseAnimation();
-//                thumbDownLottie.playAnimation();
-//            });
         }
 
         public void acceptRequest(int position) {

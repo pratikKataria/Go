@@ -34,7 +34,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_gravity="center">
@@ -130,11 +129,13 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/card_view_gp_tv_double_tap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="double tap to accept request"
             android:textAllCaps="true"
+            android:visibility="gone"
             android:layout_gravity="center"
             android:textSize="14dp" />
 
