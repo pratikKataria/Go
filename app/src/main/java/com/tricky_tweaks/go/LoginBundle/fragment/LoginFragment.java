@@ -253,18 +253,30 @@ public class LoginFragment extends Fragment{
                     progressBar.setVisibility(View.GONE);
 
                     if (isAdminClicked) {
-                        ((NavigationHost) getActivity()).navigateTo(new AdminFormFragment(), false);
 
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs",0);
                         SharedPreferences.Editor  editor = sharedPreferences.edit();
                         editor.putBoolean("IS_ADMIN", true);
                         editor.apply();
+
+                        ((NavigationHost) getActivity()).navigateTo(new AdminFormFragment(), false);
+
                     } else {
                         ((NavigationHost) getActivity()).navigateTo(new StudentFormFragment(), false);
                     }
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    startActivity(new Intent(getContext(), MainActivity.class));
+
+                    if(isAdminClicked) {
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs",0);
+                        SharedPreferences.Editor  editor = sharedPreferences.edit();
+                        editor.putBoolean("IS_ADMIN", true);
+                        editor.apply();
+
+                        startActivity(new Intent(getContext(), MainActivity.class));
+                    } else {
+                        startActivity(new Intent(getContext(), MainActivity.class));
+                    }
                 }
             }
 

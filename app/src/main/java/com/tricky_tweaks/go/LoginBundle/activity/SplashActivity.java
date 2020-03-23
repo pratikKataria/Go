@@ -34,9 +34,46 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+    }
+
+    private void isDocPresent(String path, String id, String var, final FirebaseCallback firebaseCallback) {
+        DatabaseReference documentReference = FirebaseDatabase.getInstance().getReference(path + "/" + id).child(var);
+
+        documentReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getValue(String.class) != null) {
+                    firebaseCallback.isExist(true);
+                }
+                else {
+                    firebaseCallback.isExist(false);
+                }
+
+
+                Toast.makeText(SplashActivity.this, "" + dataSnapshot.getValue(String.class), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+
+        Log.e("SPLASH ACTIVITY ---- ", " h i i ii i ii i i ii i ii  i");
+
         SharedPreferences preferences = getSharedPreferences("AppSettingPrefs", 0);
         boolean isFirstRun = preferences.getBoolean("FIRST_RUN", true);
         boolean isAdmin = preferences.getBoolean("IS_ADMIN", false);
+
+        Log.e("SPLASH ACTIVITY ---- ", isAdmin+"");
 
         if (isFirstRun) {
             SharedPreferences.Editor editor = preferences.edit();
@@ -46,6 +83,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
 
         } else if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Log.e("SPLASH ACTIVITY ---- ", isAdmin+"");
             if (isAdmin) {
                 isDocPresent("Admin", FirebaseAuth.getInstance().getUid(), "a_name", new FirebaseCallback() {
                     @Override
@@ -80,43 +118,10 @@ public class SplashActivity extends AppCompatActivity {
                 });
             }
         } else {
+            Log.e("SPLASH ACTIVITY ---- ", isAdmin+"  else ");
             startActivity(new Intent(SplashActivity.this, EntryActivity.class));
         }
 
-    }
-
-    private void isDocPresent(String path, String id, String var, final FirebaseCallback firebaseCallback) {
-        DatabaseReference documentReference = FirebaseDatabase.getInstance().getReference(path + "/" + id).child(var);
-        final Integer[] isExist = new Integer[1];
-
-        documentReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.getValue(String.class) != null) {
-                    firebaseCallback.isExist(true);
-                }
-                else {
-                    firebaseCallback.isExist(false);
-                }
-
-                Log.e("SplashActivity", "document snp : " + isExist[0]);
-
-                Toast.makeText(SplashActivity.this, "" + dataSnapshot.getValue(String.class), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
     }
 
     private void startActivityOnResult(int result, int event) {
