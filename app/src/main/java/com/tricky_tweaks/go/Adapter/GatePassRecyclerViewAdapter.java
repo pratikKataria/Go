@@ -1,8 +1,8 @@
 package com.tricky_tweaks.go.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,7 +119,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
 
-    public class PassViewHolder extends RecyclerView.ViewHolder {
+    public class PassViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textViewUID;
         TextView textViewName;
@@ -135,6 +135,10 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         LottieAnimationView thumbUpLottie;
         LottieAnimationView thumbDownLottie;
 
+        View mItemView;
+
+        SharedPreferences preferences = context.getSharedPreferences("AppSettingPrefs", 0);
+        boolean isAdmin = preferences.getBoolean("IS_ADMIN", false);
 
         boolean doubleTap = false;
         boolean isHide = true;
@@ -143,6 +147,9 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         public PassViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            mItemView = itemView;
+
             textViewUID = itemView.findViewById(R.id.card_view_ap_user_id);
             textViewFrom = itemView.findViewById(R.id.card_view_gp_from);
             textViewTo = itemView.findViewById(R.id.card_view_gp_to);
@@ -158,6 +165,12 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             thumbUpLottie = itemView.findViewById(R.id.card_view_gp_thumb_up);
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
             cardView = itemView.findViewById(R.id.card_view_gp);
+
+            if (!isAdmin) {
+                thumbUpLottie.setOnClickListener(this::onClick);
+                thumbDownLottie.setOnClickListener(this::onClick);
+            }
+
         }
 
 
@@ -190,34 +203,35 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         }
 
         void request() {
-            thumbUpLottie.setOnClickListener(v -> {
-                if (!doubleTap) {
-                    doubleTap = true;
-                    new Handler().postDelayed(() -> {
-                        doubleTap = false;
-                    }, 2000);
-                    return;
-                }
 
-                acceptRequest(position);
+//            thumbUpLottie.setOnClickListener(v -> {
+//                if (!doubleTap) {
+//                    doubleTap = true;
+//                    new Handler().postDelayed(() -> {
+//                        doubleTap = false;
+//                    }, 2000);
+//                    return;
+//                }
+//
+//                acceptRequest(position);
+//
+//                thumbDownLottie.setProgress(0);
+//                thumbDownLottie.cancelAnimation();
+//
+//                thumbUpLottie.pauseAnimation();
+//                thumbUpLottie.playAnimation();
+//            });
 
-                thumbDownLottie.setProgress(0);
-                thumbDownLottie.cancelAnimation();
-
-                thumbUpLottie.pauseAnimation();
-                thumbUpLottie.playAnimation();
-            });
-
-            thumbDownLottie.setOnClickListener(v -> {
-
-                rejectRequest(position);
-
-                thumbUpLottie.setProgress(0);
-                thumbUpLottie.cancelAnimation();
-
-                thumbDownLottie.pauseAnimation();
-                thumbDownLottie.playAnimation();
-            });
+//            thumbDownLottie.setOnClickListener(v -> {
+//
+//                rejectRequest(position);
+//
+//                thumbUpLottie.setProgress(0);
+//                thumbUpLottie.cancelAnimation();
+//
+//                thumbDownLottie.pauseAnimation();
+//                thumbDownLottie.playAnimation();
+//            });
         }
 
         public void acceptRequest(int position) {
@@ -270,6 +284,38 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             }
 
             this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.card_view_gp_thumb_up:
+                    if (!doubleTap) {
+                        doubleTap = true;
+                        new Handler().postDelayed(() -> {
+                            doubleTap = false;
+                        }, 2000);
+                        return;
+                    }
+
+                    acceptRequest(position);
+
+                    thumbDownLottie.setProgress(0);
+                    thumbDownLottie.cancelAnimation();
+
+                    thumbUpLottie.pauseAnimation();
+                    thumbUpLottie.playAnimation();
+                    break;
+                case R.id.card_view_gp_thumb_down:
+                    rejectRequest(position);
+
+                    thumbUpLottie.setProgress(0);
+                    thumbUpLottie.cancelAnimation();
+
+                    thumbDownLottie.pauseAnimation();
+                    thumbDownLottie.playAnimation();
+                    break;
+            }
         }
     }
 
