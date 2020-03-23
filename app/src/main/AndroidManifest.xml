@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".LoginBundle.fragment.AdminFormFragment"></activity>
         <activity android:name=".MainBundle.activity.CreateGatePassActivity" />
         <activity android:name=".LoginBundle.activity.SplashActivity">
             <intent-filter>
