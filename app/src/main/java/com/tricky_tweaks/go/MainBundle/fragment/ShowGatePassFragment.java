@@ -54,6 +54,8 @@ public class ShowGatePassFragment extends Fragment {
 
     DatabaseReference databaseReference;
 
+    boolean isAdmin = false;
+
     public ShowGatePassFragment() {
         // Required empty public constructor
     }
@@ -80,6 +82,10 @@ public class ShowGatePassFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_show_gate_pass, container, false);
 
+        SharedPreferences preferences = getActivity().getSharedPreferences("AppSettingPrefs", 0);
+
+        isAdmin = preferences.getBoolean("IS_ADMIN", false);
+
         init(view);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("GatePass");
@@ -87,6 +93,8 @@ public class ShowGatePassFragment extends Fragment {
         setUpToolbar(view);
 
         setUpRecyclerView();
+
+
 
         popList(new FirebaseCallback() {
             @Override
@@ -142,7 +150,10 @@ public class ShowGatePassFragment extends Fragment {
                         GatePassData g = d.getValue(GatePassData.class);
                         if (g != null)
                         Log.d("SHOW GATE PASS", g.getGp_from()+"");
-                        if (g.getS_id().equals(FirebaseAuth.getInstance().getUid())) {
+                        if (!isAdmin && g.getS_id().equals(FirebaseAuth.getInstance().getUid())) {
+                            tempList.add(0, d.getValue(GatePassData.class));
+                            gatePassRecyclerViewAdapter.notifyDataSetChanged();
+                        }else {
                             tempList.add(0, d.getValue(GatePassData.class));
                             gatePassRecyclerViewAdapter.notifyDataSetChanged();
                         }

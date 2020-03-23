@@ -11,10 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.airbnb.lottie.LottieComposition;
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.airbnb.lottie.LottieDrawable;
-import com.airbnb.lottie.LottieListener;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -77,8 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         MaterialButton mb = findViewById(R.id.activity_main_mb_gate_pass);
         MaterialButton mb1 = findViewById(R.id.activity_main_mb_leave_pass);
-
-        fab.setImageDrawable(lottieDrawable);
 
         fab.setOnClickListener(n -> {
             if (isGone) {

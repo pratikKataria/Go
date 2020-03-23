@@ -143,6 +143,7 @@ public class LoginFragment extends Fragment{
                         progressBar.setVisibility(View.GONE);
                         mPassEditText.setText("");
                         Toast.makeText(getActivity(), "worng pass", Toast.LENGTH_SHORT).show();
+                        Log.e("LOGING ", isAdminClicked+"");
 
                     }
                 }
@@ -150,6 +151,8 @@ public class LoginFragment extends Fragment{
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     isAdminClicked = false;
+                    Log.e("LOGING ", isAdminClicked+"");
+
                 }
             });
 
@@ -157,6 +160,9 @@ public class LoginFragment extends Fragment{
 
         cancelBtn.setOnClickListener(n -> {
             dialog.dismiss();
+            isAdminClicked = false;
+
+            Log.e("LOGING ", isAdminClicked+"");
             Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
         });
 

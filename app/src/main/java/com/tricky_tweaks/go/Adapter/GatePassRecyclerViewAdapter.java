@@ -14,7 +14,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,7 +76,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Students");
-            ref.child(FirebaseAuth.getInstance().getUid()).child("s_name").addValueEventListener(new ValueEventListener() {
+            ref.child(id).child("s_name").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     p.textViewName.setText("Name : " + dataSnapshot.getValue(String.class));
@@ -102,9 +101,6 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemViewType(int position) {
         if (list.size() > 0) {
-            new Handler().postDelayed(() -> {
-                return;
-            },1000);
             return CARD_VIEW;
 
         } else {
