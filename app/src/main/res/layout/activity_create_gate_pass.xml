@@ -136,6 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="\u2022"
+                        android:textColor="@color/black"
                         android:textSize="42dp" />
 
                     <LinearLayout
@@ -190,6 +191,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="\u2022"
+                        android:textColor="@color/black"
                         android:textSize="42dp" />
 
                     <LinearLayout
@@ -250,6 +252,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Duration"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/sen_b"
             android:drawableStart="@drawable/ic_duration"
             android:drawablePadding="12dp"
@@ -259,15 +262,15 @@
             android:id="@+id/activity_gate_pass_et_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="ex: 30 mins"
+            android:hint="ex: 30 mins "
             android:padding="12dp"
-            android:layout_marginStart="38dp"
             android:background="@color/colorPrimary"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modrator"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/sen_b"
             android:drawableStart="@drawable/ic_person"
             android:drawablePadding="12dp"
@@ -285,6 +288,7 @@
             android:layout_height="wrap_content"
             android:text="student count"
             android:fontFamily="@font/sen_b"
+            android:layout_marginTop="8dp"
             android:drawableStart="@drawable/ic_person_add_black_24dp"
             android:drawablePadding="12dp"
             android:gravity="center"/>
@@ -293,9 +297,9 @@
             android:id="@+id/activity_gate_pass_et_s_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="ex: 4 mins"
+            android:hint="ex: 4 min"
+            android:inputType="number"
             android:padding="12dp"
-            android:layout_marginStart="38dp"
             android:background="@color/colorPrimary"/>
 
 
@@ -303,6 +307,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reason"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/sen_b"
             android:drawableStart="@drawable/ic_reason"
             android:drawablePadding="12dp"
@@ -312,6 +317,9 @@
             android:id="@+id/activity_gate_pass_et_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="400"
+            android:maxLines="8"
+            android:verticalScrollbarPosition="right"
             android:hint="reason"/>
 
         <ProgressBar
@@ -326,6 +334,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.Go.Button"
+            android:layout_marginTop="8dp"
             android:backgroundTint="@color/colorAccent"
             android:text="save test"/>
 

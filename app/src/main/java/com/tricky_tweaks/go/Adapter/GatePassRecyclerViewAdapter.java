@@ -6,6 +6,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firestore.v1.TargetOrBuilder;
 import com.tricky_tweaks.go.DataModel.GatePassData;
 import com.tricky_tweaks.go.R;
 
@@ -128,6 +132,7 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         TextView textViewReason;
         TextView textViewReasonBtn;
         TextView textViewDoubleTap;
+        ImageView imageViewSpin;
         CardView cardView;
 
         LottieAnimationView thumbUpLottie;
@@ -166,7 +171,19 @@ public class GatePassRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             thumbDownLottie = itemView.findViewById(R.id.card_view_gp_thumb_down);
             cardView = itemView.findViewById(R.id.card_view_gp);
 
-            if (!isAdmin) {
+            imageViewSpin = itemView.findViewById(R.id.card_view_icon_spin);
+
+            imageViewSpin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RotateAnimation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    rotateAnimation.setDuration((long) 800);
+                    rotateAnimation.setRepeatCount(1);
+                    imageViewSpin.startAnimation(rotateAnimation);
+                }
+            });
+
+            if (isAdmin) {
                 textViewDoubleTap.setVisibility(View.VISIBLE);
                 thumbUpLottie.setOnClickListener(this::onClick);
                 thumbDownLottie.setOnClickListener(this::onClick);

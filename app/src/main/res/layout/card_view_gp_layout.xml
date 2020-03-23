@@ -47,6 +47,7 @@
                 android:layout_weight="1"
                 android:text="destinationsdfsdfsdfsdfsdfsdsdasdasdasdsadasdasdafsdfsdfsdfsdsdfsdfsadasdsdf" />
             <ImageView
+                android:id="@+id/card_view_icon_spin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"

@@ -101,7 +101,7 @@ public class CreateGatePassActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.activity_gate_pass_pb);
         progressBar2 = findViewById(R.id.progressBar);
 
-        MaterialButton mb = findViewById(R.id.activity_gate_pass_mb_save);
+        MaterialButton mbSave = findViewById(R.id.activity_gate_pass_mb_save);
 
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -127,57 +127,92 @@ public class CreateGatePassActivity extends AppCompatActivity {
 
         setStaticFields();
 
-        mb.setOnClickListener(v -> {
+        mbSave.setOnClickListener(v -> {
+
+            if (from.getText().toString().isEmpty()) {
+                from.setError("should not be empty");
+                from.requestFocus();
+                return;
+            }
+
+            if (to.getText().toString().isEmpty()) {
+                to.setError("should not be empty");
+                to.requestFocus();
+                return;
+            }
+
+            if (duration.getText().toString().isEmpty()) {
+                duration.setError("should not be empty");
+                duration.requestFocus();
+                return;
+            }
+
+            if (s_count.getText().toString().isEmpty()) {
+                s_count.setError("should not be empty");
+                s_count.requestFocus();
+                return;
+            }
+
+            if (s_count.getText().toString().isEmpty() &&  Integer.parseInt(s_count.getText().toString()) < 5) {
+                s_count.setError("should be vaild");
+                s_count.requestFocus();
+                return;
+            }
+
             progressBar.setVisibility(View.VISIBLE);
             progressBar2.setVisibility(View.VISIBLE);
             Map<String, Object> map = new HashMap<>();
 
-            String s = getSaltString();
-            map.put("/" + s + "/gp_id", s);
-            map.put("/" + s + "/s_id", FirebaseAuth.getInstance().getUid());
-            map.put("/" + s + "/gp_from", from.getText().toString());
-            map.put("/" + s + "/gp_to", to.getText().toString());
-            map.put("/" + s + "/gp_reason", reason.getText().toString());
-            map.put("/" + s + "/gp_s_count", s_count.getText().toString());
-            map.put("/" + s + "/gp_moderator", sModerator[0]);
-            map.put("/" + s + "/gp_duration", duration.getText().toString());
-            map.put("/" + s + "/gp_time", new Date().toString());
-            map.put("/" + s + "/gp_status", -1);
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("GatePass");
+            String key = databaseReference.push().getKey();
+
+            map.put("/" + key + "/gp_id", key);
+            map.put("/" + key + "/s_id", FirebaseAuth.getInstance().getUid());
+            map.put("/" + key + "/gp_from", from.getText().toString());
+            map.put("/" + key + "/gp_to", to.getText().toString());
+            map.put("/" + key + "/gp_reason", reason.getText().toString());
+            map.put("/" + key + "/gp_s_count", s_count.getText().toString());
+            map.put("/" + key + "/gp_moderator", sModerator[0]);
+            map.put("/" + key + "/gp_duration", duration.getText().toString());
+            map.put("/" + key + "/gp_time", new Date().toString());
+            map.put("/" + key + "/sys_nano", Math.abs(System.nanoTime()));
+            map.put("/" + key + "/gp_status", -1);
             //-1 = pending // 0 = seen // 1 == accepted
 
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("GatePass");
+
             databaseReference.updateChildren(map).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-
-
-//                    Map<String, Object> map1 = new HashMap<>();
-//                    map1.put("/student_passes/"+FirebaseAuth.getInstance().getUid()+"/"+s, true);
-//                    databaseReference.updateChildren(map1);
                     Toast.makeText(CreateGatePassActivity.this, "successfull", Toast.LENGTH_SHORT).show();
+                    sendNotification();
                 } else{
                     progressBar.setVisibility(View.GONE);
                 }
             }).addOnFailureListener(e -> {
+                Toast.makeText(this, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             });
 
-            String salt = getSaltString();
-            String uid = FirebaseAuth.getInstance().getUid();
-            Map<String, Object> notificationMap = new HashMap<>();
-            notificationMap.put(salt+"/from", FirebaseAuth.getInstance().getUid());
-            notificationMap.put(salt+"/type", "pending");
-
-            //all notification send to pratikkatariya786.pk@gmail.com;
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child("rzhBwseySnf6l03okDFCpagJuSo1");
-                reference.updateChildren(notificationMap).addOnCompleteListener(task1 -> {
-                    if (task1.isSuccessful()) {
-                        Toast.makeText(CreateGatePassActivity.this, "created notification", Toast.LENGTH_SHORT).show();
-                    }
-                });
         });
     }
+
+    public void sendNotification() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child("rzhBwseySnf6l03okDFCpagJuSo1");
+
+        String key = reference.push().getKey();
+
+        Map<String, Object> notificationMap = new HashMap<>();
+        notificationMap.put(key+"/from", FirebaseAuth.getInstance().getUid());
+        notificationMap.put(key+"/type", "pending");
+
+        //all notification send to pratikkatariya786.pk@gmail.com;
+        reference.updateChildren(notificationMap).addOnCompleteListener(task1 -> {
+            if (task1.isSuccessful()) {
+                Toast.makeText(CreateGatePassActivity.this, "created notification", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
 
     public void setStaticFields() {
         progressBar.setVisibility(View.VISIBLE);

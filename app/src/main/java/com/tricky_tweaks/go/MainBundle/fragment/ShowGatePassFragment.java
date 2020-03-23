@@ -154,7 +154,7 @@ public class ShowGatePassFragment extends Fragment {
 
     private void popList(FirebaseCallback firebaseCallback) {
 
-        Query q =  databaseReference.orderByChild("gp_time").limitToLast(5);
+        Query q =  databaseReference.orderByChild("sys_nano").limitToLast(5);
 
 
         q.addValueEventListener(new ValueEventListener() {
