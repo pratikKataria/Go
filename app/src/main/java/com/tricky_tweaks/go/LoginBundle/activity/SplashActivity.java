@@ -68,6 +68,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         Log.e("SPLASH ACTIVITY ---- ", " h i i ii i ii i i ii i ii  i");
+//        Log.e("SPLASH ACTIVITY ---- ", " h i i ii i ii i i ii i ii  i" + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         SharedPreferences preferences = getSharedPreferences("AppSettingPrefs", 0);
         boolean isFirstRun = preferences.getBoolean("FIRST_RUN", true);
