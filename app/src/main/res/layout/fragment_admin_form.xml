@@ -1,14 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".LoginBundle.fragment.AdminFormFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Details"
+            android:textColor="@color/mainFontColor"
+            android:fontFamily="@font/sen_b"
+            android:textSize="32sp"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/crayon_image" />
+
+        <ProgressBar
+            android:id="@+id/fragment_detail_form_pb_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Go.Progress"/>
+
+        <TextView
+            android:id="@+id/fragment_detail_form_tv_uid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="user id :"
+            android:textColor="@color/ceriseRed"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"/>
+
+        <EditText
+            android:id="@+id/fragment_detail_form_et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Go.EditText"
+            android:hint="Admin name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Moderator Type"/>
+
+        <EditText
+            android:id="@+id/fragment_detail_form_et_moderator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Go.EditText"
+            android:hint="ex. HOD, Warden, etc"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:layout_marginTop="12dp"/>
+
+        <RadioGroup
+            android:id="@+id/fragment_detail_form_rg_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/fragment_detail_form_rb_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="male"
+                android:checked="true"/>
+            <RadioButton
+                android:id="@+id/fragment_detail_form_rb_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="female"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/fragment_detail_form_tv_gen_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender selected: "
+            android:textColor="@color/ceriseRed"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="phone number"/>
+
+
+        <EditText
+            android:id="@+id/fragment_detail_form_et_father_phone_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Go.EditText"
+            android:maxLength="10"
+            android:inputType="number"
+            android:hint="phone no" />
+
+
+        <ProgressBar
+            android:id="@+id/fragment_detail_form_pb_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Go.Progress"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_detail_form_mb_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="save"/>
+    </LinearLayout>
+</ScrollView>
