@@ -120,7 +120,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         } else {
             Log.e("SPLASH ACTIVITY ---- ", isAdmin+"  else ");
-            startActivity(new Intent(SplashActivity.this, EntryActivity.class));
+            startActivity(new Intent(SplashActivity.this, EntryActivity.class).putExtra("EVENT", 0));
         }
 
     }

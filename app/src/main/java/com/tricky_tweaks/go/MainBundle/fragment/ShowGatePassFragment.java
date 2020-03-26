@@ -148,7 +148,7 @@ public class ShowGatePassFragment extends Fragment {
 
         Log.e("Show Gate Pass Fragment ", "logout");
 
-        startActivity(new Intent(getContext(), EntryActivity.class));
+        startActivity(new Intent(getContext(), EntryActivity.class).putExtra("EVENT", 0));
         getActivity().finish();
     }
 

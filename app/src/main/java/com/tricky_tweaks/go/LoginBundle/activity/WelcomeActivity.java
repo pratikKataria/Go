@@ -26,7 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         closeBtn.setOnClickListener(v -> finish());
         nextBtn.setOnClickListener(v -> {
-            startActivity(new Intent(WelcomeActivity.this, EntryActivity.class));
+            startActivity(new Intent(WelcomeActivity.this, EntryActivity.class).putExtra("EVENT", 0));
             finish();
         });
 

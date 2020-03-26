@@ -1,10 +1,6 @@
 package com.tricky_tweaks.go.MainBundle.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,17 +11,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.libraries.places.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,10 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.tricky_tweaks.go.R;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class CreateGatePassActivity extends AppCompatActivity {
 
@@ -183,7 +173,7 @@ public class CreateGatePassActivity extends AppCompatActivity {
             databaseReference.updateChildren(map).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(CreateGatePassActivity.this, "successfull", Toast.LENGTH_SHORT).show();
-                    sendNotification();
+                    getAdminId();
                 } else{
                     progressBar.setVisibility(View.GONE);
                 }
@@ -195,8 +185,9 @@ public class CreateGatePassActivity extends AppCompatActivity {
         });
     }
 
-    public void sendNotification() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child("rzhBwseySnf6l03okDFCpagJuSo1");
+    public void sendNotification(String adminId) {
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(adminId);
 
         String key = reference.push().getKey();
 
@@ -207,12 +198,33 @@ public class CreateGatePassActivity extends AppCompatActivity {
         //all notification send to pratikkatariya786.pk@gmail.com;
         reference.updateChildren(notificationMap).addOnCompleteListener(task1 -> {
             if (task1.isSuccessful()) {
-                Toast.makeText(CreateGatePassActivity.this, "created notification", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(CreateGatePassActivity.this, "notification sent", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    public void getAdminId() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Admin");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot s : dataSnapshot.getChildren()) {
+                    String key = s.getKey();
+                    if (key != null && !key.equals("password")) {
+                        Log.e("Send Notification", key);
+                        sendNotification(key);
+                    }
+                }
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     public void setStaticFields() {
         progressBar.setVisibility(View.VISIBLE);

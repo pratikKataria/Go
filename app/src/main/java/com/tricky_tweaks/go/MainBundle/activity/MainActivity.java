@@ -52,25 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost{
         );
 
 
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("MAINACT", "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        Log.e("MAINACT", token);
-                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
         getSupportFragmentManager().beginTransaction().add(R.id.activity_main_container, new ShowGatePassFragment()).commit();
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);

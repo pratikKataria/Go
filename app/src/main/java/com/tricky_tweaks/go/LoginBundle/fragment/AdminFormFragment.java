@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.tricky_tweaks.go.LoginBundle.activity.SplashActivity;
 import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.R;
 
@@ -88,7 +89,8 @@ public class AdminFormFragment extends Fragment {
 
                 Toast.makeText(getActivity(), " data uploaded successfull ", Toast.LENGTH_SHORT).show();
 
-                startActivity(new Intent(getContext() , MainActivity.class));
+                startActivity(new Intent(getActivity() , SplashActivity.class));
+                getActivity().finish();
 
             }).addOnFailureListener(e -> {
                 Toast.makeText(getContext(), "error " + e.getMessage(), Toast.LENGTH_SHORT).show();

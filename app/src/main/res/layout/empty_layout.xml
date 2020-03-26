@@ -12,15 +12,4 @@
         app:lottie_autoPlay="true"
         app:lottie_fileName="list_loading.json"
         app:lottie_loop="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
-        android:text="Loading..."
-        android:fontFamily="@font/sen_b"
-        android:textSize="22dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/lottieAnimationView"
-        tools:layout_editor_absoluteX="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

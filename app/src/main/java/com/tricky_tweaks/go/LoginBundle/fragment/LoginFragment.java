@@ -1,11 +1,14 @@
 package com.tricky_tweaks.go.LoginBundle.fragment;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +44,8 @@ import com.tricky_tweaks.go.MainBundle.activity.MainActivity;
 import com.tricky_tweaks.go.NavigationHost;
 import com.tricky_tweaks.go.R;
 
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -55,8 +60,18 @@ public class LoginFragment extends Fragment{
     private TextView textError;
     private AlertDialog dialog;
 
+    private SharedPreferences sharedPreferences;
+
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth auth;
+
+    Context context;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
 
     public LoginFragment() {
         // Required empty public constructor
@@ -67,6 +82,10 @@ public class LoginFragment extends Fragment{
         progressBar = view.findViewById(R.id.fragment_login_pb);
         imageButton = view.findViewById(R.id.fragment_login_ib_google);
         textError = view.findViewById(R.id.fragment_login_tv_error);
+
+
+        sharedPreferences = context.getSharedPreferences("AppSettingPrefs",0);
+
 
         auth = FirebaseAuth.getInstance();
     }
@@ -228,9 +247,12 @@ public class LoginFragment extends Fragment{
                     if (dataSnapshot != null && dataSnapshot.exists()) {
                         String token = dataSnapshot.getValue(String.class);
                         if (token != null && token.equals(FirebaseInstanceId.getInstance().getToken())) {
-                            Toast.makeText(getActivity(), "Token Verified", Toast.LENGTH_SHORT).show();
+                            Activity activity = getActivity();
+                            if (activity != null && isAdded()) {
+                                Toast.makeText(getActivity(), "Token Verified", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            ref.child(FirebaseAuth.getInstance().getUid() + "/d_token").setValue(FirebaseInstanceId.getInstance().getToken(), (databaseError, databaseReference) -> Toast.makeText(getActivity(), "Token Changed", Toast.LENGTH_SHORT).show());
+                            ref.child(id + "/d_token").setValue(FirebaseInstanceId.getInstance().getToken(), (databaseError, databaseReference) -> Toast.makeText(getActivity(), "Token Changed", Toast.LENGTH_SHORT).show());
                         }
                     }
                 }
@@ -259,14 +281,10 @@ public class LoginFragment extends Fragment{
                     progressBar.setVisibility(View.GONE);
 
                     if (isAdminClicked) {
-
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs",0);
-                        SharedPreferences.Editor  editor = sharedPreferences.edit();
-                        editor.putBoolean("IS_ADMIN", true);
-                        editor.apply();
-
-                        ((NavigationHost) getActivity()).navigateTo(new AdminFormFragment(), false);
-
+                            SharedPreferences.Editor  editor = sharedPreferences.edit();
+                            editor.putBoolean("IS_ADMIN", true);
+                            editor.apply();
+                            ((NavigationHost) getActivity()).navigateTo(new AdminFormFragment(), false);
                     } else {
                         ((NavigationHost) getActivity()).navigateTo(new StudentFormFragment(), false);
                     }
@@ -274,14 +292,70 @@ public class LoginFragment extends Fragment{
                     progressBar.setVisibility(View.GONE);
 
                     if(isAdminClicked) {
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs",0);
+//                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs",0);
                         SharedPreferences.Editor  editor = sharedPreferences.edit();
                         editor.putBoolean("IS_ADMIN", true);
                         editor.apply();
 
-                        startActivity(new Intent(getContext(), MainActivity.class));
+                        Activity activity = getActivity();
+                        if (activity != null && isAdded()) {
+                            startActivity(new Intent(getActivity(), MainActivity.class));
+                            getActivity().finish();
+                        }
+
                     } else {
-                        startActivity(new Intent(getContext(), MainActivity.class));
+                        Activity activity = getActivity();
+                        if (activity != null && isAdded()) {
+                            startActivity(new Intent(getActivity(), MainActivity.class));
+                            getActivity().finish();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }   DatabaseReference studentNode = FirebaseDatabase.getInstance().getReference(path+"/"+ id).child(var);
+        studentNode.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e("Login fragment", dataSnapshot.getValue() + "");
+                if (dataSnapshot.getValue(String.class) == null) {
+                    progressBar.setVisibility(View.GONE);
+
+                    if (isAdminClicked) {
+                            SharedPreferences.Editor  editor = sharedPreferences.edit();
+                            editor.putBoolean("IS_ADMIN", true);
+                            editor.apply();
+                            ((NavigationHost) getActivity()).navigateTo(new AdminFormFragment(), false);
+                    } else {
+                        ((NavigationHost) getActivity()).navigateTo(new StudentFormFragment(), false);
+                    }
+                } else {
+                    progressBar.setVisibility(View.GONE);
+
+                    if(isAdminClicked) {
+//                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppSettingPrefs",0);
+                        SharedPreferences.Editor  editor = sharedPreferences.edit();
+                        editor.putBoolean("IS_ADMIN", true);
+                        editor.apply();
+
+                        Activity activity = getActivity();
+                        if (activity != null && isAdded()) {
+                            startActivity(new Intent(getActivity(), MainActivity.class));
+                            getActivity().finish();
+                        }
+
+                    } else {
+                        Activity activity = getActivity();
+                        if (activity != null && isAdded()) {
+                            startActivity(new Intent(getActivity(), MainActivity.class));
+                            getActivity().finish();
+                        }
                     }
                 }
             }
